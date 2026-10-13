@@ -1,6 +1,6 @@
 ﻿{
     "schemaVersion":  2,
-    "generatedAt":  "2026-10-13T17:37:23.2410713Z",
+    "generatedAt":  "2026-10-13T17:44:50.8279338Z",
     "title":  "Design System: Florian Hoelzel portfolio",
     "extensions":  {
                        "typographyMeta":  {
@@ -68,8 +68,8 @@
                                       },
                                       {
                                           "name":  "name-entrance",
-                                          "value":  "2.15s",
-                                          "purpose":  "First-visit cloud-to-name ASCII stream, sampled from actual heading font metrics, then crossfade into selectable Florian heading. Completion persists locally; shared pause; reduced motion and returning visits show finished text immediately."
+                                          "value":  "1.6s",
+                                          "purpose":  "Standalone local ASCII scramble with jitter, dissipating stray symbols and staggered letter locks resolving into selectable Florian heading. Visually independent of cloud. Completion persists locally; shared pause; reduced motion and returning visits show finished text immediately."
                                       }
                                   ],
                        "colorMeta":  {

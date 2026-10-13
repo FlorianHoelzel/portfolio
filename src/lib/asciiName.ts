@@ -1,70 +1,72 @@
-interface LetterParticle { x: number; y: number; startX: number; startY: number; delay: number; bend: number; glyph: string }
-const GLYPHS = '.:+=*ox%#@';
-export const NAME_ENTRANCE_DURATION = 2.15;
+const GLYPHS = '!<>[]{}/*+=:#%?';
+export const NAME_ENTRANCE_DURATION = 1.6;
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
+const noise = (seed: number) => {
+  const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return value - Math.floor(value);
+};
 
-export function createAsciiName(context: CanvasRenderingContext2D, heading: HTMLElement, hero: HTMLElement, cloud: HTMLElement) {
+// Local text scramble, independent of the cloud. Fixed targets and seeded noise
+// keep the animation inside the heading without changing the page's layout.
+export function createAsciiName(context: CanvasRenderingContext2D, heading: HTMLElement, hero: HTMLElement) {
   const bounds = hero.getBoundingClientRect();
   const text = heading.getBoundingClientRect();
-  const source = cloud.getBoundingClientRect();
   const style = getComputedStyle(heading);
-  const mask = document.createElement('canvas');
-  mask.width = Math.ceil(text.width);
-  mask.height = Math.ceil(text.height);
-  const ink = mask.getContext('2d')!;
-  ink.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-  ink.letterSpacing = style.letterSpacing;
-  ink.textBaseline = 'alphabetic';
+  const fontSize = parseFloat(style.fontSize);
+  const font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
   const name = heading.textContent || 'Florian';
-  const metrics = ink.measureText(name);
-  const ascent = metrics.fontBoundingBoxAscent || parseFloat(style.fontSize) * .8;
-  const descent = metrics.fontBoundingBoxDescent || parseFloat(style.fontSize) * .2;
-  // Match the DOM line box, so the particle lettering resolves in place.
-  ink.fillText(name, 0, (text.height - ascent - descent) / 2 + ascent);
-  const pixels = ink.getImageData(0, 0, mask.width, mask.height).data;
-  const particles: LetterParticle[] = [];
-  const spacing = text.height < 60 ? 4 : 5;
-  for (let y = 0; y < mask.height; y += spacing) {
-    for (let x = 0; x < mask.width; x += spacing) {
-      if (pixels[(y * mask.width + x) * 4 + 3] < 120) continue;
-      const index = particles.length;
-      const angle = index * 2.39996;
-      const ring = .3 + ((index * 37) % 100) / 145;
-      particles.push({
-        x: text.left - bounds.left + x,
-        y: text.top - bounds.top + y,
-        startX: source.left - bounds.left + source.width * .53 + Math.cos(angle) * source.width * .18 * ring,
-        startY: source.top - bounds.top + source.height * .46 + Math.sin(angle) * source.height * .14 * ring,
-        delay: x / mask.width * .38 + ((index * 13) % 17) / 100,
-        bend: Math.sin(angle) * 35,
-        glyph: GLYPHS[index % GLYPHS.length],
-      });
-    }
-  }
+  context.font = font;
+  context.letterSpacing = style.letterSpacing;
+  const metrics = context.measureText(name);
+  const ascent = metrics.fontBoundingBoxAscent || fontSize * .8;
+  const descent = metrics.fontBoundingBoxDescent || fontSize * .2;
+  const left = text.left - bounds.left;
+  const baseline = text.top - bounds.top + (text.height - ascent - descent) / 2 + ascent;
+  const letters = Array.from(name).map((letter, index) => {
+    const start = context.measureText(name.slice(0, index)).width;
+    const end = context.measureText(name.slice(0, index + 1)).width;
+    return { letter, center: left + (start + end) / 2, width: end - start,
+      initial: left + (index + .5) * text.width / name.length,
+      lock: .55 + [0, 2, 4, 1, 6, 3, 5][index % 7] * .1 };
+  });
 
   return (time: number) => {
     context.clearRect(0, 0, bounds.width, bounds.height);
-    context.font = `${spacing + 2}px Consolas, 'Liberation Mono', monospace`;
+    context.textBaseline = 'alphabetic';
     context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    const resolve = clamp((time - 1.65) / .5);
-    for (const particle of particles) {
-      const progress = clamp((time - particle.delay) / 1.1);
-      if (progress === 0) continue;
-      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -8 * progress);
-      const arc = Math.sin(progress * Math.PI);
-      const x = particle.startX + (particle.x - particle.startX) * eased;
-      const y = particle.startY + (particle.y - particle.startY) * eased - arc * (25 + particle.bend);
-      context.globalAlpha = Math.min(1, progress * 6) * (1 - resolve);
-      context.fillStyle = progress > .7 ? '#dfecff' : '#8eafd1';
-      context.fillText(particle.glyph, x, y);
-      // A short echo makes the flow legible without long trails across the copy.
-      if (progress < .65) {
-        context.globalAlpha *= .25;
-        context.fillText('.', x + (particle.startX - x) * .04, y + 2);
+    context.letterSpacing = '0px';
+    const frame = Math.floor(time * 16);
+    const settling = 1 - Math.pow(1 - clamp(time / 1.15), 3);
+    const resolve = clamp((time - 1.3) / .3);
+    for (const [index, letter] of letters.entries()) {
+      const locked = time >= letter.lock;
+      const jitter = locked ? 0 : (1 - settling) * fontSize * .18;
+      const glyph = locked ? letter.letter : GLYPHS[Math.floor(noise(index * 37 + frame) * GLYPHS.length)];
+      const x = letter.initial + (letter.center - letter.initial) * settling + (noise(frame + index * 11) - .5) * jitter;
+      const y = baseline + (noise(frame + index * 19 + 100) - .5) * jitter;
+      context.font = locked ? font : `${style.fontWeight} ${fontSize * .82}px Consolas, monospace`;
+      context.fillStyle = locked ? style.color : '#b9cdf0';
+      context.globalAlpha = 1 - resolve;
+      // Wide symbols compress into narrow letter slots as the mess settles.
+      const glyphWidth = context.measureText(glyph).width;
+      context.save();
+      context.translate(x, y);
+      context.scale(Math.min(1, Math.max(letter.width, fontSize * .18) / glyphWidth), 1);
+      context.fillText(glyph, 0, 0);
+      context.restore();
+      if (!locked) {
+        context.font = `${Math.max(8, fontSize * .16)}px Consolas, monospace`;
+        context.fillStyle = '#8eafd1';
+        context.globalAlpha = .45 * (1 - settling);
+        for (let echo = 0; echo < 3; echo++) {
+          const seed = index * 31 + echo * 7 + frame;
+          context.fillText(GLYPHS[Math.floor(noise(seed) * GLYPHS.length)],
+            x + (noise(seed + 1) - .5) * fontSize * .6,
+            baseline - fontSize * (.15 + noise(seed + 2) * .8));
+        }
       }
     }
     context.globalAlpha = 1;
-    heading.style.opacity = String(.25 + .75 * (1 - Math.pow(1 - resolve, 3)));
+    heading.style.opacity = String(resolve);
   };
 }

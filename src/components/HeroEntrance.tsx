@@ -20,9 +20,8 @@ export function HeroEntrance({ paused, reducedMotion }: HeroEntranceProps) {
     const element = canvas.current;
     const hero = element?.parentElement;
     const heading = hero?.querySelector<HTMLElement>('#hero-heading');
-    const cloud = hero?.querySelector<HTMLElement>('.ascii-cloud');
     const context = element?.getContext('2d');
-    if (!element || !hero || !heading || !cloud || !context) return;
+    if (!element || !hero || !heading || !context) return;
     let frame = 0;
     let last = 0;
     let elapsed = 0;
@@ -56,7 +55,7 @@ export function HeroEntrance({ paused, reducedMotion }: HeroEntranceProps) {
       element.width = Math.round(bounds.width * ratio);
       element.height = Math.round(bounds.height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      render = createAsciiName(context, heading, hero, cloud);
+      render = createAsciiName(context, heading, hero);
       render(elapsed);
       sync();
     });

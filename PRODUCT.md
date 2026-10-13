@@ -44,7 +44,7 @@ Florian explicitly rejected the initial site as looking like "AI slop." Future w
 
 Florian subsequently approved the showcase structure and requested a playful, developer-driven treatment with a moving ASCII cloud implemented in React. He then selected the magnetic-cloud direction: visible rolling motion, cursor-driven tilt, and characters that scatter and spring back. Preserve the approved project structure while adding character. The ASCII cloud is decorative, with pause controls and a still reduced-motion view.
 
-Florian requested the hero name be shortened to “Florian” and selected a first-visit entrance in which ASCII particles travel from the cloud, assemble the name, and resolve into crisp text. Play this once per browser with local persistence; returning visitors and reduced-motion users receive the finished heading immediately.
+Florian requested the hero name be shortened to “Florian.” The approved entrance is now a standalone scrambled ASCII mess resolving into the name, visually disconnected from the cloud; he rejected the earlier cloud-to-name stream. Play this once per browser with local persistence; returning visitors and reduced-motion users receive the finished heading immediately.
 
 ## Evidence on Hand
 
