@@ -7,7 +7,7 @@ related_targets: ["src/components/ProjectShowcase.tsx", "src/features/work/Proje
 
 # Portfolio project showcases
 
-Mode: Experience. Extend the existing portfolio for visitors exploring Florian's projects and code. The user approved MONOLITH, TransitRadar, Yoshi Leaderboards, and sumof.best, with both functional explanations and short technical notes. Keep seven smaller repositories in a compact filterable list.
+Mode: Experience. Extend the existing portfolio for visitors exploring Florian's projects and code. The user approved MONOLITH, TransitRadar, Yoshi Leaderboards, and sumof.best, with both functional explanations and short technical notes. Keep four smaller repositories in a compact filterable list.
 
 ## Direction contract
 
@@ -19,7 +19,7 @@ STORY: Visitors see TransitRadar's map, learn what MONOLITH connects, inspect Yo
 
 FIRST VIEWPORT: The existing introduction leads into a selected-project heading and a project selector beside TransitRadar's preview. Mobile uses a two-column selector above the preview and keeps full-size screenshot inspection.
 
-FORM: User-selected interactive workbench inside the established visual system; no new visual identity tournament applies. A vertical selector controls one large preview and two detail tabs. Project hashes, keyboard navigation, reduced motion, and screenshot inspection remain supported. Seven smaller projects remain below.
+FORM: User-selected interactive workbench inside the established visual system; no new visual identity tournament applies. A vertical selector controls one large preview and two detail tabs. Project hashes, keyboard navigation, reduced motion, and screenshot inspection remain supported. Four smaller projects remain below.
 
 FINISH: Browser review confirmed desktop, source, and mobile compositions. Checks passed for four project tabs, both detail views, keyboard navigation, project hash reloads, three screenshot dialogs and focus return, all filters, eight widths, and reduced motion. No material issues remain from that review. DESIGN.md records the workbench; existing shipping rasters retain their provenance.
 

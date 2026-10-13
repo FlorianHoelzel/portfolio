@@ -55,19 +55,4 @@ export const projects: Project[] = [
     description: 'Explore the source and documentation for this Python repository on GitHub.',
     tags: ['Python'], repository: repository('robovac-g30'),
   },
-  {
-    slug: 'LiveSplit.Leaderboard', title: 'LiveSplit Leaderboard', category: 'Other',
-    description: 'A leaderboard component for LiveSplit, the speedrunning timer.',
-    tags: ['C#', 'LiveSplit'], repository: repository('LiveSplit.Leaderboard'),
-  },
-  {
-    slug: 'zahlenraten', title: 'Zahlenraten', category: 'Other',
-    description: 'A simple number guessing game written in Python.',
-    tags: ['Python', 'Game'], repository: repository('zahlenraten'),
-  },
-  {
-    slug: 'vbb-rest', title: 'vbb-rest', category: 'Web & data',
-    description: 'A fork of the VBB transport REST API project. Browse the repository on GitHub.',
-    tags: ['JavaScript', 'Fork'], repository: repository('vbb-rest'), fork: true,
-  },
 ];

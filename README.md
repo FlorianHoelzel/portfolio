@@ -46,7 +46,7 @@ The heading entrance lives in `src/features/hero/HeroEntrance.tsx` and `src/feat
 
 Yoshi Leaderboards is explicitly presented as a browser-only prototype. Sum of Best's screenshot uses the public demo archive. MONOLITH shows a source excerpt instead of a fabricated dashboard screenshot.
 
-The project collection is a curated snapshot of FlorianHoelzel’s public GitHub repositories, retrieved October 13, 2026. All project repositories are included; the GitHub profile README repository is accessible through the profile link. The VBB fork is labeled. No personal email address or employment history is assumed.
+The project collection is a curated snapshot of FlorianHoelzel’s public GitHub repositories, retrieved October 13, 2026. The displayed collection excludes vbb-rest, zahlenraten, and LiveSplit.Leaderboard by request; the metadata snapshot may still contain them. The GitHub profile README repository is accessible through the profile link. No personal email address or employment history is assumed.
 
 ## Refresh repository metadata
 
