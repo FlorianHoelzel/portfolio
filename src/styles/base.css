@@ -54,7 +54,7 @@ svg {
   width: min(1120px, calc(100% - 80px));
   margin-inline: auto;
 }
-.project-index, .project-tags, .project-count, .toolbox dt {
+.project-index, .project-tags, .toolbox dt {
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
 .skip-link {
@@ -132,49 +132,6 @@ h2 {
 .section-aside {
   color: #888;
   font-size: 12px;
-}
-.work-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 27px;
-  padding-bottom: 21px;
-  border-bottom: 1px solid var(--line);
-  gap: 15px;
-}
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 21px;
-}
-.filter {
-  color: #888;
-  padding: 3px 0;
-  border: 0;
-  background: none;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.filter.active {
-  color: var(--text);
-  text-decoration: underline;
-  text-underline-offset: 7px;
-  text-decoration-color: #a0a0a0;
-}
-.filter:hover {
-  color: var(--text);
-}
-.filter span {
-  font-family: Consolas, monospace;
-  font-size: 10px;
-  color: #969696;
-}
-.project-count {
-  color: #888;
-  font-size: 10px;
-  white-space: nowrap;
 }
 .projects-grid {
   display: flex;
@@ -352,15 +309,6 @@ h2 {
   .section-aside {
     display: none;
   }
-  .filters {
-    gap: 16px;
-  }
-  .filter {
-    font-size: 11px;
-  }
-  .project-count {
-    display: none;
-  }
   .project-card {
     grid-template-columns: 24px 1fr;
     gap: 14px;
@@ -442,12 +390,6 @@ h2 {
   }
   h1 {
     font-size: 40px;
-  }
-  .filters {
-    gap: 13px;
-  }
-  .filter {
-    font-size: 10px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

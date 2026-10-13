@@ -1,4 +1,4 @@
-import type { Category, Project } from '../types/project';
+import type { Project } from '../types/project';
 
 export const profile = {
   name: 'Florian Hölzel',
@@ -6,7 +6,6 @@ export const profile = {
   intro: 'Software for connected homes, public transport, and speedrunning. A selection of things I’ve built and shared on GitHub.',
 };
 
-export const categories: Category[] = ['All projects', 'Web & data', 'Smart home', 'Other'];
 const repository = (name: string) => `${profile.github}/${name}`;
 
 // Curated from public GitHub repositories. Update content here, without touching the UI.

@@ -27,7 +27,7 @@ The application builds to static files in `dist/`. Local development uses `npm r
 ## Capabilities and Constraints
 
 - Showcase MONOLITH, TransitRadar, Yoshi Leaderboards, and sumof.best with functional explanations and short technical notes; the user explicitly selected these four projects.
-- Show the remaining public project repositories in a compact filterable index.
+- Show the remaining public project repositories in a compact simple list.
 - Filter projects by category: Web & data, Smart home, and Other.
 - Link directly to repositories and to live sites when a real URL is available.
 - Provide a short introduction, about information, and GitHub contact link.
@@ -48,7 +48,7 @@ The hero displays “Florian Hölzel.” Its approved entrance is a standalone s
 
 ## Evidence on Hand
 
-Florian selected an interactive workbench for the four showcase projects: a project selector beside a large screenshot or source preview, with compact functional and technical detail tabs. Keep the four smaller repositories in their filterable index and retain actual captures and source evidence.
+Florian selected an interactive workbench for the four showcase projects: a project selector beside a large screenshot or source preview, with compact functional and technical detail tabs. Keep the four smaller repositories in their simple list and retain actual captures and source evidence.
 
 - `src/data/portfolio.ts`: curated project descriptions, categories, languages, repository links, and available live-site links.
 - `src/data/showcases.ts`: approved showcase projects, factual descriptions, technical notes, and image captions.

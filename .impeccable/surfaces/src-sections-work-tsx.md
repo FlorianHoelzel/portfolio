@@ -7,7 +7,7 @@ related_targets: ["src/components/ProjectShowcase.tsx", "src/features/work/Proje
 
 # Portfolio project showcases
 
-Mode: Experience. Extend the existing portfolio for visitors exploring Florian's projects and code. The user approved MONOLITH, TransitRadar, Yoshi Leaderboards, and sumof.best, with both functional explanations and short technical notes. Keep four smaller repositories in a compact filterable list.
+Mode: Experience. Extend the existing portfolio for visitors exploring Florian's projects and code. The user approved MONOLITH, TransitRadar, Yoshi Leaderboards, and sumof.best, with both functional explanations and short technical notes. Keep four smaller repositories in a compact simple list.
 
 ## Direction contract
 

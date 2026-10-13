@@ -50,16 +50,6 @@ spacing:
   media: "28px"
   mobile-section: "36px"
 components:
-  filter:
-    backgroundColor: "transparent"
-    textColor: "#888"
-    typography: "{typography.label}"
-    padding: "3px 0"
-  filter-active:
-    backgroundColor: "transparent"
-    textColor: "{colors.text}"
-    typography: "{typography.label}"
-    padding: "3px 0"
   image-expand:
     backgroundColor: "{colors.background}"
     textColor: "{colors.text}"
@@ -122,7 +112,7 @@ The incumbent implementation contains additional gray text values for individual
 - **Title:** section headings use the title role. Compact project names also use (18px), with weight (500) and tighter letter spacing (-.04em).
 - **Story:** functional showcase headlines use the story role and become (22px) on mobile.
 - **Body:** showcase summaries use the body role and become (13px) on mobile. About copy uses (14px) with line height (1.85); compact project copy uses (13px) with line height (1.75).
-- **Label:** navigation, filters, links, and captions range from (10px) to (13px). Project indices, compact tags, and counts use monospace; showcase tags use the body family.
+- **Label:** navigation, links, and captions range from (10px) to (13px). Project indices, compact tags, and counts use monospace; showcase tags use the body family.
 
 The display font is an explicitly preserved incumbent choice for this extension. It is not a recommendation to introduce system display typography into unrelated new visual identities.
 
@@ -165,8 +155,8 @@ The hero heading reads “Florian Hölzel.” On every visit, a (1.6s) jumble of
 ### Links and navigation
 Links retain the body family and use inline SVG icons where appropriate. Primary project links use the accent; hover changes them to primary text and, for showcase links, adds an underline. The shared keyboard treatment is a (2px) accent outline offset by (5px). Mobile navigation opens as a full-width inset panel under the header.
 
-### Filters and tags
-Filters wrap as a text-button group. The selected filter uses primary text and an underline offset by (7px), with selection exposed through `aria-pressed`. Compact project tags are monospace text separated by centered dots. Showcase tags are unboxed text with wrapping gaps.
+### Project tags
+Compact project tags are monospace text separated by centered dots. Showcase tags are unboxed text with wrapping gaps.
 
 ### Project rows
 Rows use an index, title, descriptive copy, tags, and repository or live-site links. Horizontal rules establish their boundaries. There is no enclosing filled card, rounded shell, or elevation shadow.

@@ -1,6 +1,6 @@
 # Florian’s portfolio
 
-A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Four project showcases combine actual screenshots or source excerpts with functional descriptions and short technical notes. Smaller repositories appear in a filterable index.
+A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Four project showcases combine actual screenshots or source excerpts with functional descriptions and short technical notes. Smaller repositories appear in a simple list.
 
 ## Run locally
 
