@@ -12,6 +12,13 @@
 .workbench-project-stack { display: block; margin-top: 8px; font-size: 11px; }
 .workbench-selection-note { margin: 27px 18px 0; font-size: 12px; line-height: 1.8; color: var(--muted); }
 .workbench-panel { min-width: 0; }
+.corruption-tools { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 32px; margin-bottom: 10px; }
+.corruption-trigger { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; border: 0; padding: 7px 0 7px 10px; background: none; color: var(--accent); font-size: 12px; }
+.corruption-trigger:hover { color: var(--text); }
+.corruption-trigger:disabled { color: var(--muted); cursor: default; }
+.corruption-status { color: var(--muted); font-size: 11px; }
+.corruption-region { position: relative; }
+.corruption-canvas { position: absolute; z-index: 1; pointer-events: none; }
 .showcase { scroll-margin-top: 30px; }
 .showcase-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 46px; margin-bottom: 14px; }
 .showcase-heading h3 { font-size: 28px; font-weight: 550; letter-spacing: -.025em; }

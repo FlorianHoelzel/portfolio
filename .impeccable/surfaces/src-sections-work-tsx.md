@@ -21,6 +21,8 @@ FIRST VIEWPORT: The existing introduction leads into a selected-project heading 
 
 FORM: User-selected interactive workbench inside the established visual system; no new visual identity tournament applies. A vertical selector controls one large preview and two detail tabs. Project hashes, keyboard navigation, reduced motion, and screenshot inspection remain supported. Four smaller projects remain below.
 
+CORRUPTION: The selected playground direction adds a user-triggered (1.35s) canvas effect inside the preview only: shifted image strips and ASCII fragments repair themselves. Source excerpts use the same bounded treatment. Reduced motion receives a static ASCII view with a restore action. Browser checks verified image/code repair, original-content preservation, cancellation on project switch, keyboard activation, mobile composition, screenshot inspection, and six responsive widths; no material issues remained in the desktop/source/mobile visual review.
+
 FINISH: Browser review confirmed desktop, source, and mobile compositions. Checks passed for four project tabs, both detail views, keyboard navigation, project hash reloads, three screenshot dialogs and focus return, all filters, eight widths, and reduced motion. No material issues remain from that review. DESIGN.md records the workbench; existing shipping rasters retain their provenance.
 
 Evidence: project READMEs and dependencies fetched from public GitHub; public-site screenshots captured October 13, 2026. Yoshi is a static prototype. sumof.best's captured archive is explicitly demo data. MONOLITH has no supplied screenshot and will show its actual device configuration excerpt instead of a fabricated dashboard.

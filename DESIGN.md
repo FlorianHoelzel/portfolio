@@ -168,6 +168,10 @@ One project occupies the preview stage at a time. Screenshot previews show actua
 
 The preview uses a (250ms) clipped reveal when motion is allowed; reduced motion switches immediately. Only the active preview is mounted. No embedded project sites, new packages, polling, or continuous animation are added to the workbench.
 
+The user-triggered “Corrupt view” action temporarily overlays the image or source-code region with a canvas snapshot, shifted horizontal strips, and luminance-derived ASCII fragments. A (1.35s) envelope ramps the distortion up and smoothly repairs it; the canvas is then removed. Original images, source text, provenance, links, and details remain unchanged. The action is disabled during repair to prevent overlapping runs. Switching projects cancels the effect; offscreen and hidden-tab rendering pauses; resizing restores the original view. Reduced motion shows a static ASCII treatment with an explicit “Restore view” action. The canvas is decorative, and a status region announces corruption and restoration without frame-by-frame updates.
+
+`CorruptionPlayground.tsx` owns the action and lifecycle; `corruptPreview.ts` captures the preview and draws the effect. Both live beside the project workbench in `src/features/work/`. No dependencies or sound are added.
+
 ### Screenshot inspection
 A native dialog opens from the image button. It supplies an accessible name, focuses the close control, supports Escape and backdrop dismissal, and returns focus through native dialog behavior. Page scrolling is locked while a dialog is open. The mobile inspection image scrolls within the dialog rather than shrinking all detail to the viewport.
 

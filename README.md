@@ -38,6 +38,8 @@ Edit `src/data/portfolio.ts` to change the displayed name, profile, and reposito
 
 Choose a project to switch its preview, then use “What it does” or “How it works” for functional and technical details. Both sets of tabs support keyboard navigation. Share a project using its `#project-{slug}` URL. Screenshot inspection keeps Escape, focus return, and mobile scrolling; reduced motion disables the preview transition.
 
+“Corrupt view” briefly fractures the preview into shifted strips and ASCII fragments, then repairs it automatically. Reduced-motion users get a static ASCII view and a restore action. `src/features/work/CorruptionPlayground.tsx` manages its lifecycle; `corruptPreview.ts` renders the effect from the actual local image or source excerpt. Original content is preserved.
+
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 
 The introduction's magnetic ASCII cloud is a React-managed canvas, with rendering logic in `src/features/hero/cloudRenderer.ts`. Its projected particles roll, tilt toward the cursor, and swirl with a gentle ripple and spring return. Cached glyph sprites support a 60fps target without React rerenders or added dependencies. It pauses offscreen or in hidden tabs, disables both autoplay and pointer motion for reduced-motion users. Mobile gives the cloud its own space above the introduction and leaves touch scrolling intact.
