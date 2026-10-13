@@ -1,24 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Pause, Play } from 'lucide-react';
 import { createAsciiCloudRenderer, type CloudPointer } from '../lib/asciiCloud';
 
-const STORAGE_KEY = 'portfolio-cloud-paused';
+interface AsciiCloudProps {
+  paused: boolean;
+  reducedMotion: boolean;
+  onToggle: () => void;
+}
 
-export function AsciiCloud() {
+export function AsciiCloud({ paused, reducedMotion, onToggle }: AsciiCloudProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const animationTime = useRef(0);
-  const [paused, setPaused] = useState(() => {
-    try { return localStorage.getItem(STORAGE_KEY) === 'true'; } catch { return false; }
-  });
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = () => setReducedMotion(media.matches);
-    media.addEventListener('change', onChange);
-    return () => media.removeEventListener('change', onChange);
-  }, []);
 
   useEffect(() => {
     const element = canvas.current;
@@ -100,15 +93,9 @@ export function AsciiCloud() {
     };
   }, [paused, reducedMotion]);
 
-  const toggle = () => {
-    const next = !paused;
-    setPaused(next);
-    try { localStorage.setItem(STORAGE_KEY, String(next)); } catch { /* Motion controls also work without browser storage. */ }
-  };
-
   return <div className="ascii-cloud" ref={container}>
     <canvas ref={canvas} aria-hidden="true" className="ascii-cloud-canvas" />
     {!reducedMotion && <span className="cloud-interaction-hint" aria-hidden="true">{paused ? 'Motion paused' : 'Move your cursor through the cloud'}</span>}
-    {!reducedMotion && <button className="cloud-motion-toggle" onClick={toggle} aria-pressed={paused} aria-label={paused ? 'Play cloud animation' : 'Pause cloud animation'}>{paused ? <Play size={12} /> : <Pause size={12} />}{paused ? 'Play cloud' : 'Pause cloud'}</button>}
+    {!reducedMotion && <button className="cloud-motion-toggle" onClick={onToggle} aria-pressed={paused} aria-label={paused ? 'Play cloud animation' : 'Pause cloud animation'}>{paused ? <Play size={12} /> : <Pause size={12} />}{paused ? 'Play cloud' : 'Pause cloud'}</button>}
   </div>;
 }

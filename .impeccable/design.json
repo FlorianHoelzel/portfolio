@@ -1,6 +1,6 @@
 ﻿{
     "schemaVersion":  2,
-    "generatedAt":  "2026-10-13T17:27:51.4703244Z",
+    "generatedAt":  "2026-10-13T17:37:23.2410713Z",
     "title":  "Design System: Florian Hoelzel portfolio",
     "extensions":  {
                        "typographyMeta":  {
@@ -65,6 +65,11 @@
                                           "name":  "ascii-cloud",
                                           "value":  "60fps target",
                                           "purpose":  "Projected ASCII surface with rolling lobes, settling entrance, eased cursor tilt and local Gaussian swirl/ripple with damped spring return. Hover keeps the center populated. Cached glyph sprites; offscreen and hidden-tab suspension; persisted pause; static reduced-motion view."
+                                      },
+                                      {
+                                          "name":  "name-entrance",
+                                          "value":  "2.15s",
+                                          "purpose":  "First-visit cloud-to-name ASCII stream, sampled from actual heading font metrics, then crossfade into selectable Florian heading. Completion persists locally; shared pause; reduced motion and returning visits show finished text immediately."
                                       }
                                   ],
                        "colorMeta":  {

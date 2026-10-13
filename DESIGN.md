@@ -156,6 +156,12 @@ The magnetic treatment uses rolling lobes, a brief settling entrance, eased curs
 
 Its implementation lives in `src/components/AsciiCloud.tsx` and `src/lib/asciiCloud.ts`. Preserve the approved portfolio layout when extending this treatment.
 
+### First-visit name entrance
+
+The hero heading reads “Florian.” On the first eligible visit, a (2.15s) ASCII stream leaves the cloud and assembles the heading from sampled text pixels, then crossfades into the real selectable heading. Particle targets use the heading's actual font metrics and bounding box; desktop draws the stream from the right, while mobile draws it from the cloud above. The heading remains present in the accessibility tree and faintly visible throughout, and other content remains usable.
+
+`HeroEntrance.tsx` owns the temporary decorative canvas and its lifecycle; `asciiName.ts` owns letter sampling and particle paths. `useCloudMotion.ts` shares pause and reduced-motion preferences between both effects. The entrance pauses with the cloud, offscreen, and in hidden tabs. It removes its canvas and restores full heading opacity when complete. The completion flag `portfolio-name-entrance-seen` persists locally; later visits skip the sequence. Reduced-motion and initially paused visitors see the finished heading immediately. Without local storage, subsequent visits can replay.
+
 ### Links and navigation
 Links retain the body family and use inline SVG icons where appropriate. Primary project links use the accent; hover changes them to primary text and, for showcase links, adds an underline. The shared keyboard treatment is a (2px) accent outline offset by (5px). Mobile navigation opens as a full-width inset panel under the header.
 

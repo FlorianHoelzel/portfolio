@@ -37,6 +37,8 @@ Screenshots are local assets under `public/images/projects/`, with source URLs d
 
 The introduction's magnetic ASCII cloud is a React-managed canvas, with rendering logic in `src/lib/asciiCloud.ts`. Its projected particles roll, tilt toward the cursor, and swirl with a gentle ripple and spring return. Cached glyph sprites support a 60fps target without React rerenders or added dependencies. It pauses offscreen or in hidden tabs, remembers the pause/play preference, and disables both autoplay and pointer motion for reduced-motion users. Mobile gives the cloud its own space above the introduction and leaves touch scrolling intact.
 
+The first-visit heading entrance lives in `src/components/HeroEntrance.tsx` and `src/lib/asciiName.ts`. ASCII particles travel from the cloud into “Florian,” then resolve into the selectable heading. It shares motion preferences through `src/hooks/useCloudMotion.ts`. The `portfolio-name-entrance-seen` local-storage flag skips the sequence on later visits; reduced motion and an initially paused cloud skip it immediately. Clear that flag in browser DevTools to preview the entrance again.
+
 Yoshi Leaderboards is explicitly presented as a browser-only prototype. Sum of Best's screenshot uses the public demo archive. MONOLITH shows a source excerpt instead of a fabricated dashboard screenshot.
 
 The project collection is a curated snapshot of FlorianHoelzel’s public GitHub repositories, retrieved October 13, 2026. All project repositories are included; the GitHub profile README repository is accessible through the profile link. The VBB fork is labeled. No personal email address or employment history is assumed.
