@@ -1,0 +1,110 @@
+[
+  {
+    "name": "yoshi-leaderboards",
+    "description": "Yoshi’s Island speedrun leaderboards with full-game and individual-level rankings, runner profiles, and record progression.",
+    "language": "JavaScript",
+    "html_url": "https://github.com/FlorianHoelzel/yoshi-leaderboards",
+    "homepage": "http://yoshi.sumof.best/",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "FlorianHoelzel",
+    "description": null,
+    "language": null,
+    "html_url": "https://github.com/FlorianHoelzel/FlorianHoelzel",
+    "homepage": null,
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "MONOLITH-public",
+    "description": "Local-first smart home dashboard with HomeKit integration, device monitoring, calendars, shopping, and household management.",
+    "language": "Python",
+    "html_url": "https://github.com/FlorianHoelzel/MONOLITH-public",
+    "homepage": "",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "robovac-g30",
+    "description": null,
+    "language": "Python",
+    "html_url": "https://github.com/FlorianHoelzel/robovac-g30",
+    "homepage": null,
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "lg-thinq-homekit",
+    "description": "LG ThinQ washing machine status and remaining time in Apple Home using HAP-python",
+    "language": "Python",
+    "html_url": "https://github.com/FlorianHoelzel/lg-thinq-homekit",
+    "homepage": null,
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "windows-pc-homekit",
+    "description": "Windows PC power control in Apple Home with Wake-on-LAN and a Python Windows agent",
+    "language": "Python",
+    "html_url": "https://github.com/FlorianHoelzel/windows-pc-homekit",
+    "homepage": null,
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "transitradar",
+    "description": "Modern public transport platform with live departures, vehicle tracking and interactive maps, designed to support multiple cities through official transport APIs.",
+    "language": "JavaScript",
+    "html_url": "https://github.com/FlorianHoelzel/transitradar",
+    "homepage": "https://transitradar.de/",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "philips-homekit",
+    "description": "Lightweight Python bridge for Philips AC0951/13 to Apple HomeKit",
+    "language": "Python",
+    "html_url": "https://github.com/FlorianHoelzel/philips-homekit",
+    "homepage": null,
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "sumof.best",
+    "description": "A visual archive of a speedrunner’s personal best history, including current records, obsolete runs, progression graphs, and videos.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/FlorianHoelzel/sumof.best",
+    "homepage": "https://sumof.best",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "LiveSplit.Leaderboard",
+    "description": "A Leaderboard component for LiveSplit",
+    "language": "C#",
+    "html_url": "https://github.com/FlorianHoelzel/LiveSplit.Leaderboard",
+    "homepage": "",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "vbb-rest",
+    "description": null,
+    "language": "JavaScript",
+    "html_url": "https://github.com/FlorianHoelzel/vbb-rest",
+    "homepage": "https://v6.vbb.transport.rest/",
+    "fork": true,
+    "archived": false
+  },
+  {
+    "name": "zahlenraten",
+    "description": "Ein einfaches Zahlenratespiel in Python.",
+    "language": "Python",
+    "html_url": "https://github.com/FlorianHoelzel/zahlenraten",
+    "homepage": null,
+    "fork": false,
+    "archived": false
+  }
+]

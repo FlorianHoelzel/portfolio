@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.openai/*.zip
+.openai/runtime/
+.openai/logs/
+.openai/cache/
