@@ -5,6 +5,7 @@ dist/
 .env.*
 !.env.example
 .openai/*.zip
+.openai/*.tar.gz
 .openai/runtime/
 .openai/logs/
 .openai/cache/
