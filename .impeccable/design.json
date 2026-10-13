@@ -1,6 +1,6 @@
-{
+﻿{
     "schemaVersion":  2,
-    "generatedAt":  "2026-10-13T17:01:06.3175334Z",
+    "generatedAt":  "2026-10-13T17:15:02.7141494Z",
     "title":  "Design System: Florian Hoelzel portfolio",
     "extensions":  {
                        "typographyMeta":  {
@@ -60,6 +60,11 @@
                                           "name":  "page-scroll",
                                           "value":  "smooth",
                                           "purpose":  "Anchor navigation; auto when reduced motion is requested."
+                                      },
+                                      {
+                                          "name":  "ascii-cloud",
+                                          "value":  "20fps",
+                                          "purpose":  "Slowly morphing ASCII cloud in the hero. Pause preference persists; static under reduced motion; suspended offscreen and in hidden tabs."
                                       }
                                   ],
                        "colorMeta":  {
@@ -176,7 +181,7 @@
                            "html":  "\u003cdiv class=\"ds-tags\"\u003e\u003cspan\u003eTypeScript\u003c/span\u003e\u003cspan\u003eReact\u003c/span\u003e\u003c/div\u003e",
                            "description":  "Plain wrapping project metadata without filled chips.",
                            "name":  "Project tags",
-                           "css":  ".ds-tags{display:flex;flex-wrap:wrap;gap:14px;color:#999;font-family:SFMono-Regular,Consolas,Liberation Mono,monospace;font-size:10px}.ds-tags span+span:before{content:\"·\";margin-right:14px;color:#555}",
+                           "css":  ".ds-tags{display:flex;flex-wrap:wrap;gap:14px;color:#999;font-family:SFMono-Regular,Consolas,Liberation Mono,monospace;font-size:10px}.ds-tags span+span:before{content:\"Â·\";margin-right:14px;color:#555}",
                            "kind":  "chip"
                        },
                        {

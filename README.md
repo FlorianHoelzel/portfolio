@@ -35,6 +35,8 @@ Edit `src/data/portfolio.ts` to change the profile and repository links. Edit `s
 
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 
+The introduction's ASCII cloud is a React-managed canvas, with rendering logic in `src/lib/asciiCloud.ts`. It runs at up to 20 frames per second, pauses offscreen or in hidden tabs, remembers the pause/play preference, and renders a static cloud for reduced-motion users. It adds no dependencies and does not rerender React on animation frames.
+
 Yoshi Leaderboards is explicitly presented as a browser-only prototype. Sum of Best's screenshot uses the public demo archive. MONOLITH shows a source excerpt instead of a fabricated dashboard screenshot.
 
 The project collection is a curated snapshot of FlorianHoelzel’s public GitHub repositories, retrieved October 13, 2026. All project repositories are included; the GitHub profile README repository is accessible through the profile link. The VBB fork is labeled. No personal email address or employment history is assumed.

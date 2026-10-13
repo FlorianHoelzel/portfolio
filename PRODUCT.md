@@ -42,6 +42,8 @@ The owner is Florian; the current site identifies him as Florian Hoelzel and lin
 
 Florian explicitly rejected the initial site as looking like "AI slop." Future work should avoid generic promotional slogans, invented product previews, and unsupported personal claims. Use concrete, straightforward language tied to the actual projects. The existing visual implementation is evidence for refinement; initialization does not authorize a redesign or establish a new visual world.
 
+Florian subsequently approved the showcase structure and requested a playful, developer-driven treatment with a moving ASCII cloud implemented in React. Preserve that approved structure while adding character. The ASCII cloud is decorative, with pause controls and a still reduced-motion view.
+
 ## Evidence on Hand
 
 - `src/data/portfolio.ts`: curated project descriptions, categories, languages, repository links, and available live-site links.

@@ -148,6 +148,14 @@ Showcase media, source panels, dialog frames, and project rows have square corne
 
 ## Components
 
+### ASCII cloud
+
+The introduction includes a decorative React canvas cloud generated from ASCII characters. It is the page's single continuous motion accent; the project content remains still. Cool-blue shading extends the existing link accent, and a horizontal mask keeps its denser characters away from the desktop introduction. Mobile uses a lower-opacity cloud behind the same content.
+
+The cloud renders at no more than 20 frames per second, caps backing resolution at 1.5×, and stops when offscreen or when the tab is hidden. A pause/play button stores the preference locally. Reduced-motion users receive a still composition without autoplay or a motion toggle. The canvas is hidden from assistive technology; the motion control has an explicit accessible label.
+
+Its implementation lives in `src/components/AsciiCloud.tsx` and `src/lib/asciiCloud.ts`. Preserve the approved portfolio layout when extending this treatment.
+
 ### Links and navigation
 Links retain the body family and use inline SVG icons where appropriate. Primary project links use the accent; hover changes them to primary text and, for showcase links, adds an underline. The shared keyboard treatment is a (2px) accent outline offset by (5px). Mobile navigation opens as a full-width inset panel under the header.
 
