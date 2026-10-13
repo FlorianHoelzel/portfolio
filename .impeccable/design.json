@@ -1,6 +1,6 @@
 ﻿{
     "schemaVersion":  2,
-    "generatedAt":  "2026-10-13T17:15:02.7141494Z",
+    "generatedAt":  "2026-10-13T17:23:18.2956235Z",
     "title":  "Design System: Florian Hoelzel portfolio",
     "extensions":  {
                        "typographyMeta":  {
@@ -63,8 +63,8 @@
                                       },
                                       {
                                           "name":  "ascii-cloud",
-                                          "value":  "20fps",
-                                          "purpose":  "Slowly morphing ASCII cloud in the hero. Pause preference persists; static under reduced motion; suspended offscreen and in hidden tabs."
+                                          "value":  "60fps target",
+                                          "purpose":  "Projected ASCII surface with rolling lobes, settling entrance, eased cursor tilt and damped spring repulsion. Cached glyph sprites; offscreen and hidden-tab suspension; persisted pause; static reduced-motion view."
                                       }
                                   ],
                        "colorMeta":  {

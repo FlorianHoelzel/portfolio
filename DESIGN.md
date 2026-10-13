@@ -150,9 +150,9 @@ Showcase media, source panels, dialog frames, and project rows have square corne
 
 ### ASCII cloud
 
-The introduction includes a decorative React canvas cloud generated from ASCII characters. It is the page's single continuous motion accent; the project content remains still. Cool-blue shading extends the existing link accent, and a horizontal mask keeps its denser characters away from the desktop introduction. Mobile uses a lower-opacity cloud behind the same content.
+The introduction includes a decorative React canvas cloud made from projected ASCII particles on a merged three-dimensional surface. It is the page's single continuous motion accent; the project content remains still. Blue-to-pale shading communicates depth, and a horizontal mask keeps its denser characters away from the desktop introduction. On mobile the cloud occupies a dedicated region above the name so it stays visible without covering the copy.
 
-The cloud renders at no more than 20 frames per second, caps backing resolution at 1.5×, and stops when offscreen or when the tab is hidden. A pause/play button stores the preference locally. Reduced-motion users receive a still composition without autoplay or a motion toggle. The canvas is hidden from assistive technology; the motion control has an explicit accessible label.
+The magnetic treatment uses rolling lobes, a brief settling entrance, eased cursor-driven tilt, and local character repulsion with damped spring return. Glyph sprites are cached rather than rasterized each frame; rendering targets 60 frames per second, caps backing resolution at 1.5×, and stops when offscreen or when the tab is hidden. Pointer tracking belongs to the hero, allowing normal links and text selection. Touch input does not capture gestures or require hover. A pause/play button stores the preference locally. Reduced-motion users receive a still composition without autoplay, pointer motion, or a motion toggle. The canvas and decorative cursor hint are hidden from assistive technology; the motion control has an explicit accessible label.
 
 Its implementation lives in `src/components/AsciiCloud.tsx` and `src/lib/asciiCloud.ts`. Preserve the approved portfolio layout when extending this treatment.
 

@@ -1,5 +1,7 @@
-// Project soft 3D puffs onto a character grid. All animation stays on the canvas.
-const GLYPHS = '.,:;+=*ox%#@';
+// A projected cloud surface, with spring displacement for each ASCII particle.
+// Cached glyph sprites keep font rasterization out of the animation loop.
+const GLYPHS = '.:+=*ox%#@';
+const COLORS = ['#405c78', '#6386aa', '#8eafd1', '#b9cdf0', '#dfecff'];
 const PUFFS = [
   { x: -.85, y: .2, z: .1, radius: .42 },
   { x: -.5, y: -.04, z: -.16, radius: .52 },
@@ -9,48 +11,98 @@ const PUFFS = [
   { x: .1, y: .28, z: .26, radius: .65 },
 ];
 
-export function drawAsciiCloud(context: CanvasRenderingContext2D, width: number, height: number, time: number, compact: boolean) {
-  context.clearRect(0, 0, width, height);
-  const columns = compact ? 64 : 100;
-  const cellWidth = width / columns;
-  const cellHeight = cellWidth * 1.6;
-  const rows = Math.floor(height / cellHeight);
-  const yaw = Math.sin(time * .14) * .28;
-  const driftX = Math.sin(time * .1) * .08;
-  const driftY = Math.sin(time * .19) * .04;
-  const puffs = PUFFS.map((puff, index) => ({
-    x: puff.x * Math.cos(yaw) + puff.z * Math.sin(yaw) + driftX,
-    y: puff.y + Math.sin(time * .23 + index * 1.7) * .035 + driftY,
-    radius: puff.radius * (1 + Math.sin(time * .21 + index) * .045),
-  }));
-  context.font = `${Math.max(7, cellWidth * 1.15)}px Consolas, 'Liberation Mono', monospace`;
-  context.textBaseline = 'middle';
-  context.textAlign = 'center';
-  const colors = ['#53687d', '#647c94', '#7f9bb6', '#9cb5cb', '#b9cdf0'];
+export interface CloudPointer {
+  x: number;
+  y: number;
+  strength: number;
+  tiltX: number;
+  tiltY: number;
+}
 
-  for (let row = 0; row < rows; row++) {
-    for (let column = 0; column < columns; column++) {
-      const x = (column / columns - .5) * 3.6;
-      const y = (row / rows - .5) * 2.5;
-      let density = 0;
-      let light = 0;
-      for (const puff of puffs) {
-        const dx = (x - puff.x) / puff.radius;
-        const dy = (y - puff.y) / puff.radius;
-        const contribution = Math.exp(-(dx * dx + dy * dy) * 2.7);
-        density += contribution;
-        light += contribution * (-dy * .3 - dx * .14 + .48);
+export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
+  const particles = PUFFS.flatMap((puff, puffIndex) => Array.from({ length: 260 }, (_, index) => {
+    const y = 1 - 2 * (index + .5) / 260;
+    const ring = Math.sqrt(1 - y * y);
+    const angle = index * Math.PI * (3 - Math.sqrt(5));
+    const x = Math.cos(angle) * ring;
+    const z = Math.sin(angle) * ring;
+    return { x: puff.x + x * puff.radius, y: puff.y + y * puff.radius, z: puff.z + z * puff.radius,
+      nx: x, ny: y, nz: z, puffIndex, index, dx: 0, dy: 0, vx: 0, vy: 0 };
+  }).filter(particle => !PUFFS.some((puff, index) => index !== particle.puffIndex &&
+    Math.hypot(particle.x - puff.x, particle.y - puff.y, particle.z - puff.z) < puff.radius * .96)));
+
+  let atlas: HTMLCanvasElement;
+  let fontSize = 0;
+  let tile = 0;
+  const prepareGlyphs = (size: number) => {
+    if (fontSize === size) return;
+    fontSize = size;
+    tile = Math.ceil(size * 2);
+    atlas = document.createElement('canvas');
+    atlas.width = tile * GLYPHS.length * 2;
+    atlas.height = tile * COLORS.length * 2;
+    const ink = atlas.getContext('2d')!;
+    ink.scale(2, 2);
+    ink.font = `${size}px Consolas, 'Liberation Mono', monospace`;
+    ink.textAlign = 'center';
+    ink.textBaseline = 'middle';
+    COLORS.forEach((color, row) => {
+      ink.fillStyle = color;
+      Array.from(GLYPHS).forEach((glyph, column) => ink.fillText(glyph, (column + .5) * tile, (row + .5) * tile));
+    });
+  };
+
+  return (width: number, height: number, time: number, pointer: CloudPointer, delta: number, still: boolean) => {
+    if (!width || !height) return;
+    context.clearRect(0, 0, width, height);
+    const compact = width < 500;
+    prepareGlyphs(compact ? 8 : 10);
+    const yaw = Math.sin(time * .48) * .42 + pointer.tiltX * .65;
+    const pitch = Math.sin(time * .34) * .14 - pointer.tiltY * .35;
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const scale = Math.min(width / 3.25, (height - 70) / (compact ? 1.9 : 1.55));
+    const arrival = still ? 0 : Math.exp(-time * 2.4);
+    const radius = compact ? 65 : 105;
+    const step = Math.min(delta, 1 / 30);
+    const damping = Math.exp(-7 * step);
+
+    for (const particle of particles) {
+      // Rolling lobes make the silhouette visibly breathe even without a cursor.
+      const wave = Math.sin(time * 1.25 + particle.puffIndex * 1.4);
+      const px = particle.x + particle.nx * wave * .055;
+      const py = particle.y + Math.sin(time * .9 + particle.x * 2.5) * .075;
+      const pz = particle.z + particle.nz * wave * .055;
+      const rx = px * cy + pz * sy;
+      const rz = pz * cy - px * sy;
+      const ry = py * cp - rz * sp;
+      const depth = py * sp + rz * cp;
+      const perspective = 3.5 / (3.5 - depth);
+      const spread = 1 + arrival * .4;
+      const x = width * .53 + rx * scale * perspective * spread + Math.sin(time * .5) * 12;
+      const y = height * .46 + ry * scale * perspective * spread * (compact ? .82 : .68);
+      const dx = x - pointer.x, dy = y - pointer.y;
+      const distance = Math.hypot(dx, dy);
+      const proximity = Math.max(0, 1 - distance / radius) * pointer.strength;
+      const force = proximity * proximity * 105;
+      const targetX = dx / Math.max(distance, 1) * force;
+      const targetY = dy / Math.max(distance, 1) * force;
+      if (!still) {
+        particle.vx = (particle.vx + (targetX - particle.dx) * 110 * step) * damping;
+        particle.vy = (particle.vy + (targetY - particle.dy) * 110 * step) * damping;
+        particle.dx += particle.vx * step;
+        particle.dy += particle.vy * step;
       }
-      const grain = Math.sin(x * 14 + time * .35) * Math.sin(y * 17 - time * .23) * .07;
-      const edge = Math.min(1, Math.max(0, (density + grain - .19) * 1.4));
-      if (edge < .025) continue;
-      const shade = Math.min(1, Math.max(0, light / Math.max(.01, density)));
-      const ink = Math.min(.999, edge * (.28 + shade * .72));
-      const character = GLYPHS[Math.floor(ink * GLYPHS.length)];
-      context.fillStyle = colors[Math.min(colors.length - 1, Math.floor(shade * colors.length))];
-      context.globalAlpha = Math.min(1, edge * 1.6);
-      context.fillText(character, (column + .5) * cellWidth, (row + .5) * cellHeight);
+      const normalZ = particle.nz * cy - particle.nx * sy;
+      const light = Math.max(0, Math.min(1, .45 + normalZ * .3 - particle.ny * .25));
+      const shade = Math.min(4, Math.floor(light * 5 + proximity));
+      const glyph = Math.min(GLYPHS.length - 1, Math.floor(light * (GLYPHS.length - 1)));
+      const drawY = y + particle.dy;
+      const edgeFade = Math.max(0, Math.min(1, drawY / 30, (height - 55 - drawY) / 25));
+      context.globalAlpha = Math.max(.18, Math.min(1, .55 + depth * .4 + proximity * .35)) * edgeFade;
+      const size = tile * (.8 + perspective * .2);
+      context.drawImage(atlas, glyph * tile * 2, shade * tile * 2, tile * 2, tile * 2,
+        x + particle.dx - size / 2, y + particle.dy - size / 2, size, size);
     }
-  }
-  context.globalAlpha = 1;
+    context.globalAlpha = 1;
+  };
 }
