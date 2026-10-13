@@ -183,7 +183,7 @@ h2 {
   margin-top: 14px;
 }
 .project-tags span + span::before {
-  content: 'Â·';
+  content: '\00b7';
   margin-right: 14px;
   color: #555;
 }
