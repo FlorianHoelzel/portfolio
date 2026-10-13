@@ -35,7 +35,7 @@ Edit `src/data/portfolio.ts` to change the profile and repository links. Edit `s
 
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 
-The introduction's magnetic ASCII cloud is a React-managed canvas, with rendering logic in `src/lib/asciiCloud.ts`. Its projected particles roll, tilt toward the cursor, and scatter with spring return. Cached glyph sprites support a 60fps target without React rerenders or added dependencies. It pauses offscreen or in hidden tabs, remembers the pause/play preference, and disables both autoplay and pointer motion for reduced-motion users. Mobile gives the cloud its own space above the introduction and leaves touch scrolling intact.
+The introduction's magnetic ASCII cloud is a React-managed canvas, with rendering logic in `src/lib/asciiCloud.ts`. Its projected particles roll, tilt toward the cursor, and swirl with a gentle ripple and spring return. Cached glyph sprites support a 60fps target without React rerenders or added dependencies. It pauses offscreen or in hidden tabs, remembers the pause/play preference, and disables both autoplay and pointer motion for reduced-motion users. Mobile gives the cloud its own space above the introduction and leaves touch scrolling intact.
 
 Yoshi Leaderboards is explicitly presented as a browser-only prototype. Sum of Best's screenshot uses the public demo archive. MONOLITH shows a source excerpt instead of a fabricated dashboard screenshot.
 

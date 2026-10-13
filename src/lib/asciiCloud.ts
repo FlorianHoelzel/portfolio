@@ -82,10 +82,15 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
       const y = height * .46 + ry * scale * perspective * spread * (compact ? .82 : .68);
       const dx = x - pointer.x, dy = y - pointer.y;
       const distance = Math.hypot(dx, dy);
-      const proximity = Math.max(0, 1 - distance / radius) * pointer.strength;
-      const force = proximity * proximity * 105;
-      const targetX = dx / Math.max(distance, 1) * force;
-      const targetY = dy / Math.max(distance, 1) * force;
+      // Twist the existing surface rather than evacuating a circle around the cursor.
+      // The Gaussian falloff has no hard boundary, and displacement tends to zero
+      // at the center so characters continue to occupy the hovered region.
+      const proximity = Math.exp(-distance * distance / (radius * radius * .65)) * pointer.strength;
+      const twist = proximity * (.42 + Math.sin(time * .9) * .1) * (.8 + particle.nz * .2);
+      const ripple = Math.sin(distance / radius * 5 - time * 2) * proximity * .035;
+      const cosine = Math.cos(twist), sine = Math.sin(twist);
+      const targetX = (dx * cosine - dy * sine) * (1 + ripple) - dx;
+      const targetY = (dx * sine + dy * cosine) * (1 + ripple) - dy;
       if (!still) {
         particle.vx = (particle.vx + (targetX - particle.dx) * 110 * step) * damping;
         particle.vy = (particle.vy + (targetY - particle.dy) * 110 * step) * damping;

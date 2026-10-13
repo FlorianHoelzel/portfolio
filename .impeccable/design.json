@@ -1,6 +1,6 @@
 ﻿{
     "schemaVersion":  2,
-    "generatedAt":  "2026-10-13T17:23:18.2956235Z",
+    "generatedAt":  "2026-10-13T17:27:51.4703244Z",
     "title":  "Design System: Florian Hoelzel portfolio",
     "extensions":  {
                        "typographyMeta":  {
@@ -64,7 +64,7 @@
                                       {
                                           "name":  "ascii-cloud",
                                           "value":  "60fps target",
-                                          "purpose":  "Projected ASCII surface with rolling lobes, settling entrance, eased cursor tilt and damped spring repulsion. Cached glyph sprites; offscreen and hidden-tab suspension; persisted pause; static reduced-motion view."
+                                          "purpose":  "Projected ASCII surface with rolling lobes, settling entrance, eased cursor tilt and local Gaussian swirl/ripple with damped spring return. Hover keeps the center populated. Cached glyph sprites; offscreen and hidden-tab suspension; persisted pause; static reduced-motion view."
                                       }
                                   ],
                        "colorMeta":  {
