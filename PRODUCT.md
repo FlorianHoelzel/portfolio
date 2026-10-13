@@ -1,4 +1,4 @@
-# Product
+﻿# Product
 
 <!-- impeccable:product-schema 1 -->
 
@@ -38,13 +38,13 @@ The application builds to static files in `dist/`. Local development uses `npm r
 
 ## Brand Commitments
 
-The owner is Florian; the current site identifies him as Florian Hoelzel and links to `https://github.com/FlorianHoelzel`.
+The owner is Florian; the current site identifies him as Florian Hölzel and links to `https://github.com/FlorianHoelzel`.
 
 Florian explicitly rejected the initial site as looking like "AI slop." Future work should avoid generic promotional slogans, invented product previews, and unsupported personal claims. Use concrete, straightforward language tied to the actual projects. The existing visual implementation is evidence for refinement; initialization does not authorize a redesign or establish a new visual world.
 
-Florian subsequently approved the showcase structure and requested a playful, developer-driven treatment with a moving ASCII cloud implemented in React. He then selected the magnetic-cloud direction: visible rolling motion, cursor-driven tilt, and characters that scatter and spring back. Preserve the approved project structure while adding character. The ASCII cloud is decorative, with pause controls and a still reduced-motion view.
+Florian subsequently approved the showcase structure and requested a playful, developer-driven treatment with a moving ASCII cloud implemented in React. He then selected the magnetic-cloud direction: visible rolling motion, cursor-driven tilt, and characters that scatter and spring back. Preserve the approved project structure while adding character. The ASCII cloud is decorative, with a still reduced-motion view. The cloud hint and pause control were removed as requested.
 
-Florian requested the hero name be shortened to “Florian.” The approved entrance is now a standalone scrambled ASCII mess resolving into the name, visually disconnected from the cloud; he rejected the earlier cloud-to-name stream. Play this once per browser with local persistence; returning visitors and reduced-motion users receive the finished heading immediately.
+The hero displays “Florian Hölzel.” Its approved entrance is a standalone scrambled ASCII mess resolving into the name, visually disconnected from the cloud. It replays on every page load, including returning visitors; reduced-motion users receive the finished heading immediately.
 
 ## Evidence on Hand
 
@@ -67,3 +67,4 @@ No personal email address, employment history, client list, testimonials, or out
 ## Open Decisions
 
 No additional audience, recruiting goal, personal contact channel, or public hosting requirement has been confirmed. Resolve these only when needed for a requested change.
+

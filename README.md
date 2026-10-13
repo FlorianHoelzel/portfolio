@@ -1,4 +1,4 @@
-# Florian’s portfolio
+﻿# Florian’s portfolio
 
 A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Four project showcases combine actual screenshots or source excerpts with functional descriptions and short technical notes. Smaller repositories appear in a filterable index.
 
@@ -35,9 +35,9 @@ Edit `src/data/portfolio.ts` to change the profile and repository links. Edit `s
 
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 
-The introduction's magnetic ASCII cloud is a React-managed canvas, with rendering logic in `src/lib/asciiCloud.ts`. Its projected particles roll, tilt toward the cursor, and swirl with a gentle ripple and spring return. Cached glyph sprites support a 60fps target without React rerenders or added dependencies. It pauses offscreen or in hidden tabs, remembers the pause/play preference, and disables both autoplay and pointer motion for reduced-motion users. Mobile gives the cloud its own space above the introduction and leaves touch scrolling intact.
+The introduction's magnetic ASCII cloud is a React-managed canvas, with rendering logic in `src/lib/asciiCloud.ts`. Its projected particles roll, tilt toward the cursor, and swirl with a gentle ripple and spring return. Cached glyph sprites support a 60fps target without React rerenders or added dependencies. It pauses offscreen or in hidden tabs, disables both autoplay and pointer motion for reduced-motion users. Mobile gives the cloud its own space above the introduction and leaves touch scrolling intact.
 
-The first-visit heading entrance lives in `src/components/HeroEntrance.tsx` and `src/lib/asciiName.ts`. A standalone ASCII scramble resolves into “Florian” in 1.6 seconds. It shares motion preferences through `src/hooks/useCloudMotion.ts`. The `portfolio-name-entrance-seen` local-storage flag skips the sequence on later visits; reduced motion and an initially paused cloud skip it immediately. Clear that flag in browser DevTools to preview the entrance again.
+The heading entrance lives in `src/components/HeroEntrance.tsx` and `src/lib/asciiName.ts`. A standalone ASCII scramble resolves into “Florian Hölzel” in 1.6 seconds on every page load, including returning visits. Reduced-motion users see the finished name immediately. Previous local-storage entrance and pause flags are ignored; the cloud hint and pause control are removed.
 
 Yoshi Leaderboards is explicitly presented as a browser-only prototype. Sum of Best's screenshot uses the public demo archive. MONOLITH shows a source excerpt instead of a fabricated dashboard screenshot.
 
@@ -50,3 +50,4 @@ Run `npm run sync:github` to save fresh public metadata in `src/data/github-repo
 ## Deploy
 
 Run `npm run build` and upload `dist/` to any static host. The site has no backend, runtime secrets, or client-side API dependency. `.openai/hosting.json` contains the Sites deployment configuration.
+

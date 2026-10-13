@@ -39,6 +39,7 @@ export function createAsciiName(context: CanvasRenderingContext2D, heading: HTML
     const settling = 1 - Math.pow(1 - clamp(time / 1.15), 3);
     const resolve = clamp((time - 1.3) / .3);
     for (const [index, letter] of letters.entries()) {
+      if (letter.letter === ' ') continue;
       const locked = time >= letter.lock;
       const jitter = locked ? 0 : (1 - settling) * fontSize * .18;
       const glyph = locked ? letter.letter : GLYPHS[Math.floor(noise(index * 37 + frame) * GLYPHS.length)];

@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { createAsciiName, NAME_ENTRANCE_DURATION } from '../lib/asciiName';
 
-const SEEN_KEY = 'portfolio-name-entrance-seen';
-interface HeroEntranceProps { paused: boolean; reducedMotion: boolean }
+interface HeroEntranceProps { reducedMotion: boolean }
 
-export function HeroEntrance({ paused, reducedMotion }: HeroEntranceProps) {
+export function HeroEntrance({ reducedMotion }: HeroEntranceProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
-  const pause = useRef(paused);
-  const synchronize = useRef<() => void>(() => {});
-  const [finished, setFinished] = useState(() => {
-    try { return paused || reducedMotion || localStorage.getItem(SEEN_KEY) === 'true'; }
-    catch { return paused || reducedMotion; }
-  });
-
-  useEffect(() => { pause.current = paused; synchronize.current(); }, [paused]);
+  const [finished, setFinished] = useState(reducedMotion);
 
   useEffect(() => {
     if (finished) return;
@@ -32,7 +24,6 @@ export function HeroEntrance({ paused, reducedMotion }: HeroEntranceProps) {
       done = true;
       cancelAnimationFrame(frame);
       heading.style.removeProperty('opacity');
-      try { localStorage.setItem(SEEN_KEY, 'true'); } catch { /* No-storage visits can replay. */ }
       setFinished(true);
     };
     if (reducedMotion) { complete(); return; }
@@ -46,9 +37,8 @@ export function HeroEntrance({ paused, reducedMotion }: HeroEntranceProps) {
     const sync = () => {
       cancelAnimationFrame(frame);
       last = 0;
-      if (!done && !pause.current && visible && !document.hidden && render) frame = requestAnimationFrame(tick);
+      if (!done && visible && !document.hidden && render) frame = requestAnimationFrame(tick);
     };
-    synchronize.current = sync;
     const resize = new ResizeObserver(() => {
       const bounds = hero.getBoundingClientRect();
       const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -69,7 +59,6 @@ export function HeroEntrance({ paused, reducedMotion }: HeroEntranceProps) {
       observer.disconnect();
       document.removeEventListener('visibilitychange', sync);
       heading.style.removeProperty('opacity');
-      synchronize.current = () => {};
     };
   }, [finished, reducedMotion]);
 

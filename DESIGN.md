@@ -1,4 +1,4 @@
----
+﻿---
 name: Florian Hoelzel portfolio
 description: The implemented visual system for Florian's project portfolio.
 colors:
@@ -152,15 +152,15 @@ Showcase media, source panels, dialog frames, and project rows have square corne
 
 The introduction includes a decorative React canvas cloud made from projected ASCII particles on a merged three-dimensional surface. It is the page's single continuous motion accent; the project content remains still. Blue-to-pale shading communicates depth, and a horizontal mask keeps its denser characters away from the desktop introduction. On mobile the cloud occupies a dedicated region above the name so it stays visible without covering the copy.
 
-The magnetic treatment uses rolling lobes, a brief settling entrance, eased cursor-driven tilt, and a gentle local swirl and ripple with damped spring return. A Gaussian falloff keeps the hovered region populated instead of pushing particles out into an empty circle. Glyph sprites are cached rather than rasterized each frame; rendering targets 60 frames per second, caps backing resolution at 1.5×, and stops when offscreen or when the tab is hidden. Pointer tracking belongs to the hero, allowing normal links and text selection. Touch input does not capture gestures or require hover. A pause/play button stores the preference locally. Reduced-motion users receive a still composition without autoplay, pointer motion, or a motion toggle. The canvas and decorative cursor hint are hidden from assistive technology; the motion control has an explicit accessible label.
+The magnetic treatment uses rolling lobes, a brief settling entrance, eased cursor-driven tilt, and a gentle local swirl and ripple with damped spring return. A Gaussian falloff keeps the hovered region populated instead of pushing particles out into an empty circle. Glyph sprites are cached rather than rasterized each frame; rendering targets 60 frames per second, caps backing resolution at 1.5×, and stops when offscreen or when the tab is hidden. Pointer tracking belongs to the hero, allowing normal links and text selection. Touch input does not capture gestures or require hover. Reduced-motion users receive a still composition without autoplay, pointer motion, or a motion toggle. The decorative canvas is hidden from assistive technology. The cursor hint and pause control are removed.
 
 Its implementation lives in `src/components/AsciiCloud.tsx` and `src/lib/asciiCloud.ts`. Preserve the approved portfolio layout when extending this treatment.
 
-### First-visit name entrance
+### Name entrance
 
-The hero heading reads “Florian.” On the first eligible visit, a (1.6s) jumble of ASCII symbols scrambles locally in the heading, settles into its letter positions, and locks into the name in a staggered order. Small stray symbols dissipate as it settles. The final lettering crossfades into the real selectable heading. This effect is visually independent of the cloud and uses the heading's actual font metrics and bounding box. The real heading remains in the accessibility tree throughout, and other content remains usable.
+The hero heading reads “Florian Hölzel.” On every visit, a (1.6s) jumble of ASCII symbols scrambles locally in the heading, settles into its letter positions, and locks into the name in a staggered order. Small stray symbols dissipate as it settles. The final lettering crossfades into the real selectable heading. This effect is visually independent of the cloud and uses the heading's actual font metrics and bounding box. The real heading remains in the accessibility tree throughout, and other content remains usable.
 
-`HeroEntrance.tsx` owns the temporary decorative canvas and its lifecycle; `asciiName.ts` owns glyph scrambling and letter targets. `useCloudMotion.ts` shares pause and reduced-motion preferences between both effects. The entrance pauses with the motion control, offscreen, and in hidden tabs. It removes its canvas and restores full heading opacity when complete. The completion flag `portfolio-name-entrance-seen` persists locally; later visits skip the sequence. Reduced-motion and initially paused visitors see the finished heading immediately. Without local storage, subsequent visits can replay.
+`HeroEntrance.tsx` owns the temporary decorative canvas and its lifecycle; `asciiName.ts` owns glyph scrambling and letter targets. `useCloudMotion.ts` shares the reduced-motion preference between both effects. The entrance pauses offscreen and in hidden tabs. It removes its canvas and restores full heading opacity when complete. The sequence replays on every page load, including returning visitors. Prior local-storage flags are ignored. Reduced-motion visitors see the finished heading immediately.
 
 ### Links and navigation
 Links retain the body family and use inline SVG icons where appropriate. Primary project links use the accent; hover changes them to primary text and, for showcase links, adds an underline. The shared keyboard treatment is a (2px) accent outline offset by (5px). Mobile navigation opens as a full-width inset panel under the header.
@@ -191,3 +191,4 @@ A native dialog opens from the image button. It supplies an accessible name, foc
 - **Don't** promote screenshot colors or local code highlighting into portfolio-wide accent tokens.
 
 Source drift not canonized or repaired: the stylesheet retains earlier container, header, and hero declarations overridden by the showcase extension. This document records the final cascade. Unused eyebrow styling is not documented as a reusable component. The incumbent system display font is preserved by the approved scope, not generalized as a new craft rule.
+

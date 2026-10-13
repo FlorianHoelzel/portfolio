@@ -1,6 +1,6 @@
 ﻿{
     "schemaVersion":  2,
-    "generatedAt":  "2026-10-13T17:44:50.8279338Z",
+    "generatedAt":  "2026-10-13T17:50:38.0378168Z",
     "title":  "Design System: Florian Hoelzel portfolio",
     "extensions":  {
                        "typographyMeta":  {
@@ -64,12 +64,12 @@
                                       {
                                           "name":  "ascii-cloud",
                                           "value":  "60fps target",
-                                          "purpose":  "Projected ASCII surface with rolling lobes, settling entrance, eased cursor tilt and local Gaussian swirl/ripple with damped spring return. Hover keeps the center populated. Cached glyph sprites; offscreen and hidden-tab suspension; persisted pause; static reduced-motion view."
+                                          "purpose":  "Projected ASCII surface with rolling lobes, eased cursor tilt and Gaussian swirl/ripple with damped spring return. Cached glyph sprites; offscreen and hidden-tab suspension; static reduced-motion view. No cursor hint or pause control."
                                       },
                                       {
                                           "name":  "name-entrance",
                                           "value":  "1.6s",
-                                          "purpose":  "Standalone local ASCII scramble with jitter, dissipating stray symbols and staggered letter locks resolving into selectable Florian heading. Visually independent of cloud. Completion persists locally; shared pause; reduced motion and returning visits show finished text immediately."
+                                          "purpose":  "Standalone ASCII scramble resolving into Florian Hölzel on every page load including returning visits. No persistence or cloud controls. Suspends offscreen and in hidden tabs. Reduced motion shows finished text immediately."
                                       }
                                   ],
                        "colorMeta":  {

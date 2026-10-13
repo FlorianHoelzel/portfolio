@@ -1,14 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Pause, Play } from 'lucide-react';
 import { createAsciiCloudRenderer, type CloudPointer } from '../lib/asciiCloud';
 
 interface AsciiCloudProps {
-  paused: boolean;
   reducedMotion: boolean;
-  onToggle: () => void;
 }
 
-export function AsciiCloud({ paused, reducedMotion, onToggle }: AsciiCloudProps) {
+export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const animationTime = useRef(0);
@@ -24,7 +21,7 @@ export function AsciiCloud({ paused, reducedMotion, onToggle }: AsciiCloudProps)
     let visible = true;
     let lastFrame = 0;
     let lastTick = 0;
-    const stopped = paused || reducedMotion;
+    const stopped = reducedMotion;
     const draw = createAsciiCloudRenderer(context);
     const pointer: CloudPointer = { x: -1000, y: -1000, strength: 0, tiltX: 0, tiltY: 0 };
     const target = { ...pointer };
@@ -91,11 +88,9 @@ export function AsciiCloud({ paused, reducedMotion, onToggle }: AsciiCloudProps)
       hero.removeEventListener('pointerleave', leave);
       window.removeEventListener('blur', leave);
     };
-  }, [paused, reducedMotion]);
+  }, [reducedMotion]);
 
   return <div className="ascii-cloud" ref={container}>
     <canvas ref={canvas} aria-hidden="true" className="ascii-cloud-canvas" />
-    {!reducedMotion && <span className="cloud-interaction-hint" aria-hidden="true">{paused ? 'Motion paused' : 'Move your cursor through the cloud'}</span>}
-    {!reducedMotion && <button className="cloud-motion-toggle" onClick={onToggle} aria-pressed={paused} aria-label={paused ? 'Play cloud animation' : 'Pause cloud animation'}>{paused ? <Play size={12} /> : <Pause size={12} />}{paused ? 'Play cloud' : 'Pause cloud'}</button>}
   </div>;
 }
