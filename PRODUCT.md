@@ -48,6 +48,8 @@ The hero displays “Florian Hölzel.” Its approved entrance is a standalone s
 
 ## Evidence on Hand
 
+Florian selected an interactive workbench for the four showcase projects: a project selector beside a large screenshot or source preview, with compact functional and technical detail tabs. Keep the seven smaller repositories in their filterable index and retain actual captures and source evidence.
+
 - `src/data/portfolio.ts`: curated project descriptions, categories, languages, repository links, and available live-site links.
 - `src/data/showcases.ts`: approved showcase projects, factual descriptions, technical notes, and image captions.
 - `public/images/projects/`: actual public-site captures of TransitRadar, Yoshi Leaderboards, and sumof.best, captured October 13, 2026; source URLs and evidence limitations are recorded alongside the assets.

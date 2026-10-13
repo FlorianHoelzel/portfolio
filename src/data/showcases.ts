@@ -5,7 +5,6 @@ export interface Showcase {
   notes: { title: string; text: string }[];
   image?: { src: string; alt: string; caption: string };
   source?: { file: string; url: string; code: string };
-  layout: 'wide' | 'source' | 'split';
 }
 
 export const showcases: Showcase[] = [
@@ -18,7 +17,6 @@ export const showcases: Showcase[] = [
       { title: 'A view of the journey', text: 'Vehicle positions, station search, departures, and route information meet in the same map interface.' },
     ],
     image: { src: '/images/projects/transitradar-map.jpg', alt: 'Actual TransitRadar Berlin interface showing vehicle markers across a street map.', caption: 'Berlin map · public-site capture, October 2026' },
-    layout: 'wide',
   },
   {
     slug: 'MONOLITH-public',
@@ -33,7 +31,6 @@ export const showcases: Showcase[] = [
       url: 'https://github.com/FlorianHoelzel/MONOLITH-public/blob/main/monolith/devices.py',
       code: '"device_washer_01": {\n    "name": "Waschstation",\n    "room": "Wäschekeller",\n    "type": "washer",\n    "read_only": True,\n    "status_source": "pi_homekit",\n    "value": False,\n    "remaining": 0,\n},',
     },
-    layout: 'source',
   },
   {
     slug: 'yoshi-leaderboards',
@@ -44,7 +41,6 @@ export const showcases: Showcase[] = [
       { title: 'An honest prototype', text: 'Imported records are a static fixture; demo submissions live in the browser. There is no account system or shared backend yet.' },
     ],
     image: { src: '/images/projects/yoshi.jpg', alt: 'Actual Yoshi Leaderboards prototype showing Warpless rankings, runner times, and platform filters.', caption: 'Leaderboard prototype · imported static records' },
-    layout: 'wide',
   },
   {
     slug: 'sumof.best',
@@ -55,6 +51,5 @@ export const showcases: Showcase[] = [
       { title: 'More than the latest time', text: 'Interactive histories, PB feeds, passports, and embeds make a runner’s progression explorable and shareable.' },
     ],
     image: { src: '/images/projects/sumofbest-history.jpg', alt: 'Actual Sum of Best demo showing a personal-best progression graph and dated run history.', caption: 'Public demo archive · illustrative runner data' },
-    layout: 'split',
   },
 ];

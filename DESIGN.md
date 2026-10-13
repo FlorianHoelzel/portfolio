@@ -130,7 +130,7 @@ The display font is an explicitly preserved incumbent choice for this extension.
 
 The final page container is centered, capped at (1120px), with (40px) side clearance on desktop. At (700px) and below it uses (20px) side clearance. The body supports widths from (320px).
 
-Wide showcases place a full-width image above a two-column story and notes area. Split image and source layouts use columns (1.1fr / 1fr), separated by (45px); the gap decreases to (28px) below (900px). At (700px) all showcase layouts become a single column, with source excerpts following their story. Showcase boundaries use a divider with (60px) bottom padding and (48px) bottom margin, reduced to (36px) and (32px) on mobile.
+The selected projects use an interactive workbench: a (250px) vertical project selector beside one preview panel, separated by (36px). Below (1000px) the selector becomes (210px) with a (24px) gap. Below (700px), a two-column project selector sits above the panel. Preview images and the desktop source stage use a (16:10) frame. The overview places a functional headline alongside its summary; technical notes occupy two columns. Narrow screens stack the details. Selector names use (19px), reduced to (17px) on mobile, within the incumbent system type stack.
 
 Compact project rows use columns (37px / 1fr / 130px) and gaps (20px). Mobile rows use (24px / 1fr), place links below the content, and keep descriptive text and tags together. About and contact sections switch from two columns to one at (700px).
 
@@ -172,7 +172,11 @@ Filters wrap as a text-button group. The selected filter uses primary text and a
 Rows use an index, title, descriptive copy, tags, and repository or live-site links. Horizontal rules establish their boundaries. There is no enclosing filled card, rounded shell, or elevation shadow.
 
 ### Project showcases
-An image button fills the media width and places an outlined “View screenshot” control at its lower right. Captions sit below the image. Wide media uses a top-aligned (16:9) crop; split images retain their natural proportions. Source excerpts use an inset panel with horizontally scrollable monospace code, a file link, and provenance text. Story headlines, summaries, and labeled technical notes remain selectable text.
+`src/features/work/ProjectWorkbench.tsx` owns project selection; `ProjectShowcase.tsx` renders the selected preview and details, with feature styles in `workbench.css`. The selector uses an ARIA tablist with roving focus, arrow keys, Home, and End. Selected entries use an inset background and an arrow; other entries remain text on the page. Selection updates `#project-{slug}` without jumping the viewport, and shared project hashes restore the selected view.
+
+One project occupies the preview stage at a time. Screenshot previews show actual captures, a provenance caption, and the existing inspection dialog. MONOLITH shows its actual source excerpt with line numbers, file link, and provenance. Links to the live site and repository remain beside the project name. The “What it does” and “How it works” tabs expose the original functional copy and technical notes respectively. Detail tabs also support keyboard navigation. Switching projects resets the detail view to the overview.
+
+The preview uses a (250ms) clipped reveal when motion is allowed; reduced motion switches immediately. Only the active preview is mounted. No embedded project sites, new packages, polling, or continuous animation are added to the workbench.
 
 ### Screenshot inspection
 A native dialog opens from the image button. It supplies an accessible name, focuses the close control, supports Escape and backdrop dismissal, and returns focus through native dialog behavior. Page scrolling is locked while a dialog is open. The mobile inspection image scrolls within the dialog rather than shrinking all detail to the viewport.

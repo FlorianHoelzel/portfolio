@@ -1,3 +1,4 @@
 @import './base.css';
 @import './projects.css';
+@import '../features/work/workbench.css';
 @import '../features/hero/hero.css';

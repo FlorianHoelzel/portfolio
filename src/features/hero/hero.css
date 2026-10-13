@@ -59,6 +59,9 @@
   opacity: 1;
   mask-image: linear-gradient(to right, transparent, #000 30%, #000 94%, transparent);
 }
+@media (min-width: 901px) and (max-width: 1200px) {
+  .ascii-cloud { right: -40px; }
+}
 @media (max-width: 900px) {
   .ascii-cloud {
     right: -20px;
