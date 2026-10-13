@@ -15,7 +15,7 @@ export const projects: Project[] = [
   {
     slug: 'MONOLITH-public', title: 'MONOLITH', category: 'Smart home',
     description: 'A local-first smart home dashboard. Connected devices, calendars, shopping, and household management in one place.',
-    tags: ['Python', 'HomeKit', 'Local-first'], repository: repository('MONOLITH-public'),
+    tags: ['Python', 'Flask', 'SQLite', 'HomeKit'], repository: repository('MONOLITH-public'),
     featured: true,
   },
   {
@@ -26,14 +26,14 @@ export const projects: Project[] = [
   },
   {
     slug: 'yoshi-leaderboards', title: 'Yoshi Leaderboards', category: 'Web & data',
-    description: 'Yoshi’s Island speedrun leaderboards. Full-game and individual-level rankings, runner profiles, and record progression.',
+    description: 'A browser-only Yoshi’s Island leaderboard prototype with static imported records, runner profiles, and record progression.',
     tags: ['JavaScript', 'Speedrunning', 'Data'], repository: repository('yoshi-leaderboards'),
-    liveUrl: 'http://yoshi.sumof.best/', featured: true,
+    liveUrl: 'https://yoshi.sumof.best/', featured: true,
   },
   {
     slug: 'sumof.best', title: 'sumof.best', category: 'Web & data',
     description: 'A visual archive of a speedrunner’s personal best history, with progression graphs, past records, and videos.',
-    tags: ['TypeScript', 'Visualization', 'Speedrunning'], repository: repository('sumof.best'),
+    tags: ['TypeScript', 'React', 'Vinext', 'speedrun.com API'], repository: repository('sumof.best'),
     liveUrl: 'https://sumof.best', featured: true,
   },
   {

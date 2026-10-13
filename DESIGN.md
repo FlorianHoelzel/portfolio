@@ -1,0 +1,179 @@
+---
+name: Florian Hoelzel portfolio
+description: The implemented visual system for Florian's project portfolio.
+colors:
+  accent: "#b9cdf0"
+  background: "#141414"
+  text: "#e6e6e6"
+  muted: "#a0a0a0"
+  line: "#303030"
+  inset: "#1c1c1c"
+typography:
+  display:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontSize: "clamp(42px, 6vw, 66px)"
+    fontWeight: 550
+    lineHeight: 1.15
+    letterSpacing: "-.035em"
+  headline:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontSize: "28px"
+    fontWeight: 550
+    letterSpacing: "-.025em"
+  title:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontSize: "18px"
+    fontWeight: 550
+    letterSpacing: "-.025em"
+  story:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontSize: "24px"
+    fontWeight: 500
+    lineHeight: 1.3
+    letterSpacing: "-.02em"
+  body:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontSize: "14px"
+    lineHeight: 1.8
+  label:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    fontSize: "12px"
+  mono:
+    fontFamily: "'SFMono-Regular', Consolas, 'Liberation Mono', monospace"
+    fontSize: "10px"
+rounded:
+  square: "0px"
+spacing:
+  small: "14px"
+  standard: "20px"
+  text: "22px"
+  media: "28px"
+  mobile-section: "36px"
+components:
+  filter:
+    backgroundColor: "transparent"
+    textColor: "#888"
+    typography: "{typography.label}"
+    padding: "3px 0"
+  filter-active:
+    backgroundColor: "transparent"
+    textColor: "{colors.text}"
+    typography: "{typography.label}"
+    padding: "3px 0"
+  image-expand:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.square}"
+    padding: "10px 13px"
+  source-panel:
+    backgroundColor: "{colors.inset}"
+    rounded: "{rounded.square}"
+    padding: "22px 25px"
+  screenshot-dialog:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.square}"
+    padding: "0"
+    width: "min(1500px, calc(100% - 48px))"
+---
+
+# Design System: Florian Hoelzel portfolio
+
+## Overview
+
+**Creative North Star: "Existing portfolio"**
+
+This document records the code-defined portfolio after the project showcase extension. The existing charcoal palette, system typography, text links, and horizontal rules remain its visual authority. The owner rejected generic promotional language and invented project previews; project imagery represents actual captures and retains the project's own colors.
+
+The interface places project names, descriptions, technical notes, and repository links alongside screenshots or source excerpts. Larger showcases and compact rows share the same typography and neutral surfaces. This record does not establish a new visual identity.
+
+**Key Characteristics:**
+- Charcoal background, pale text, muted supporting text, and blue links.
+- System typography with monospace metadata and source code.
+- Horizontal rules and spacing separate content without card shadows.
+- Actual screenshots can be inspected in a modal dialog.
+
+## Colors
+
+The root custom properties in `src/styles/global.css` own the palette; their values are recorded in the frontmatter.
+
+### Primary
+- **Blue accent:** repository and live-site links, visible keyboard focus, and text selection.
+
+### Neutral
+- **Charcoal background:** the page, screenshot controls, and dialog.
+- **Pale text:** headings and primary text.
+- **Muted text:** captions, technical explanations, metadata, and navigation.
+- **Divider:** section and project boundaries; also the screenshot control's hover background.
+- **Inset surface:** source excerpts and the expanded mobile menu.
+
+The incumbent implementation contains additional gray text values for individual roles. Screenshot colors and the source excerpt's green text are local content treatments, not additional brand accents.
+
+**The Root Palette Rule.** Reuse the existing root colors for portfolio chrome; preserve screenshot colors as captured.
+
+## Typography
+
+**Display and Body Font:** the existing platform system stack.
+**Metadata Font:** SFMono-Regular, Consolas, Liberation Mono, monospace. Source excerpts omit Liberation Mono; the wordmark uses Consolas.
+
+### Hierarchy
+- **Display:** the owner name uses the frontmatter display role; at the narrowest breakpoint it becomes (40px).
+- **Headline:** showcase names use the headline role; on mobile they become (25px).
+- **Title:** section headings use the title role. Compact project names also use (18px), with weight (500) and tighter letter spacing (-.04em).
+- **Story:** functional showcase headlines use the story role and become (22px) on mobile.
+- **Body:** showcase summaries use the body role and become (13px) on mobile. About copy uses (14px) with line height (1.85); compact project copy uses (13px) with line height (1.75).
+- **Label:** navigation, filters, links, and captions range from (10px) to (13px). Project indices, compact tags, and counts use monospace; showcase tags use the body family.
+
+The display font is an explicitly preserved incumbent choice for this extension. It is not a recommendation to introduce system display typography into unrelated new visual identities.
+
+## Layout
+
+The final page container is centered, capped at (1120px), with (40px) side clearance on desktop. At (700px) and below it uses (20px) side clearance. The body supports widths from (320px).
+
+Wide showcases place a full-width image above a two-column story and notes area. Split image and source layouts use columns (1.1fr / 1fr), separated by (45px); the gap decreases to (28px) below (900px). At (700px) all showcase layouts become a single column, with source excerpts following their story. Showcase boundaries use a divider with (60px) bottom padding and (48px) bottom margin, reduced to (36px) and (32px) on mobile.
+
+Compact project rows use columns (37px / 1fr / 130px) and gaps (20px). Mobile rows use (24px / 1fr), place links below the content, and keep descriptive text and tags together. About and contact sections switch from two columns to one at (700px).
+
+Navigation changes to a menu toggle at (480px). Screenshot dialogs use viewport-constrained dimensions; on mobile the image remains (1100px) wide within a scrollable inspection area.
+
+## Elevation & Depth
+
+The implementation uses no box shadows. Depth comes from background differences, horizontal dividers, and a dark modal backdrop. Source excerpts use the inset surface; screenshot frames use a near-black background. The screenshot dialog has a thin gray border and a translucent black backdrop.
+
+The dialog enters over (0.2s) with opacity and an (8px) vertical translation only when reduced motion is not requested. Reduced motion also disables smooth scrolling. These behaviors are recorded in the sidecar.
+
+## Shapes
+
+Showcase media, source panels, dialog frames, and project rows have square corners. Dividers and dialog outlines are thin (1px) lines. Filters are text buttons with no filled pill shape; tags are plain inline metadata.
+
+## Components
+
+### Links and navigation
+Links retain the body family and use inline SVG icons where appropriate. Primary project links use the accent; hover changes them to primary text and, for showcase links, adds an underline. The shared keyboard treatment is a (2px) accent outline offset by (5px). Mobile navigation opens as a full-width inset panel under the header.
+
+### Filters and tags
+Filters wrap as a text-button group. The selected filter uses primary text and an underline offset by (7px), with selection exposed through `aria-pressed`. Compact project tags are monospace text separated by centered dots. Showcase tags are unboxed text with wrapping gaps.
+
+### Project rows
+Rows use an index, title, descriptive copy, tags, and repository or live-site links. Horizontal rules establish their boundaries. There is no enclosing filled card, rounded shell, or elevation shadow.
+
+### Project showcases
+An image button fills the media width and places an outlined “View screenshot” control at its lower right. Captions sit below the image. Wide media uses a top-aligned (16:9) crop; split images retain their natural proportions. Source excerpts use an inset panel with horizontally scrollable monospace code, a file link, and provenance text. Story headlines, summaries, and labeled technical notes remain selectable text.
+
+### Screenshot inspection
+A native dialog opens from the image button. It supplies an accessible name, focuses the close control, supports Escape and backdrop dismissal, and returns focus through native dialog behavior. Page scrolling is locked while a dialog is open. The mobile inspection image scrolls within the dialog rather than shrinking all detail to the viewport.
+
+## Do's and Don'ts
+
+### Do:
+- **Do** preserve the root palette and the incumbent type stack for extensions to this portfolio.
+- **Do** use actual captures or identifiable source excerpts as project evidence.
+- **Do** preserve visible keyboard focus, native dialog behavior, and reduced-motion support.
+- **Do** use separators and spacing to group project content.
+
+### Don't:
+- **Don't** invent project interfaces, promotional claims, or a replacement identity without authorization.
+- **Don't** add rounded tag pills or shadowed cards to these established text and media patterns.
+- **Don't** promote screenshot colors or local code highlighting into portfolio-wide accent tokens.
+
+Source drift not canonized or repaired: the stylesheet retains earlier container, header, and hero declarations overridden by the showcase extension. This document records the final cascade. Unused eyebrow styling is not documented as a reusable component. The incumbent system display font is preserved by the approved scope, not generalized as a new craft rule.

@@ -9,3 +9,7 @@ dist/
 .openai/runtime/
 .openai/logs/
 .openai/cache/
+.impeccable/config.local.json
+.impeccable/review/
+.impeccable/hook.cache.json
+.agents/skills/impeccable/scripts/bin/

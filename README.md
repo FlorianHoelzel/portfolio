@@ -1,6 +1,6 @@
 # Florian’s portfolio
 
-A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Neutral charcoal, system typography, and a filterable project index with direct repository and live-site links.
+A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Four project showcases combine actual screenshots or source excerpts with functional descriptions and short technical notes. Smaller repositories appear in a filterable index.
 
 ## Run locally
 
@@ -20,6 +20,7 @@ public/                 Static assets such as the favicon
 src/
   components/           Reusable navigation, links, and project entries
   data/portfolio.ts     Profile, project descriptions, categories, and links
+  data/showcases.ts     Showcase copy, technical notes, and screenshot metadata
   sections/             Hero, work, about, and contact sections
   styles/               Design tokens, layouts, and responsive styling
   types/                Shared TypeScript models
@@ -30,7 +31,11 @@ scripts/                Maintenance utilities
 
 ## Customize
 
-Edit `src/data/portfolio.ts` to change the profile and add or reorder projects. Featured projects use larger entries in the index. Update the about and contact copy in their section files. Colors, spacing, and typography are defined in `src/styles/global.css`.
+Edit `src/data/portfolio.ts` to change the profile and repository links. Edit `src/data/showcases.ts` to change showcase order, copy, technical notes, and image captions. The four selected projects have dedicated showcases; other projects stay in the compact index. Update the about and contact copy in their section files. Colors, spacing, and typography are defined in `src/styles/global.css`.
+
+Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
+
+Yoshi Leaderboards is explicitly presented as a browser-only prototype. Sum of Best's screenshot uses the public demo archive. MONOLITH shows a source excerpt instead of a fabricated dashboard screenshot.
 
 The project collection is a curated snapshot of FlorianHoelzel’s public GitHub repositories, retrieved October 13, 2026. All project repositories are included; the GitHub profile README repository is accessible through the profile link. The VBB fork is labeled. No personal email address or employment history is assumed.
 
