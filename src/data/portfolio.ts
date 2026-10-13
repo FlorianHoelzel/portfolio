@@ -4,7 +4,7 @@ export const profile = {
   name: 'Florian',
   github: 'https://github.com/FlorianHoelzel',
   tagline: 'Developer & builder',
-  intro: 'I build useful tools for the things I care about. From connected homes to public transport and the next personal best.',
+  intro: 'Software for connected homes, public transport, and speedrunning. A selection of things I’ve built and shared on GitHub.',
 };
 
 export const categories: Category[] = ['All projects', 'Web & data', 'Smart home', 'Other'];
@@ -16,25 +16,25 @@ export const projects: Project[] = [
     slug: 'MONOLITH-public', title: 'MONOLITH', category: 'Smart home',
     description: 'A local-first smart home dashboard. Connected devices, calendars, shopping, and household management in one place.',
     tags: ['Python', 'HomeKit', 'Local-first'], repository: repository('MONOLITH-public'),
-    visual: 'home', featured: true,
+    featured: true,
   },
   {
     slug: 'transitradar', title: 'TransitRadar', category: 'Web & data',
     description: 'A public transport platform with live departures, vehicle tracking, and interactive maps, powered by official transport APIs.',
     tags: ['JavaScript', 'Transport APIs', 'Maps'], repository: repository('transitradar'),
-    liveUrl: 'https://transitradar.de/', visual: 'transit', featured: true,
+    liveUrl: 'https://transitradar.de/', featured: true,
   },
   {
     slug: 'yoshi-leaderboards', title: 'Yoshi Leaderboards', category: 'Web & data',
     description: 'Yoshi’s Island speedrun leaderboards. Full-game and individual-level rankings, runner profiles, and record progression.',
     tags: ['JavaScript', 'Speedrunning', 'Data'], repository: repository('yoshi-leaderboards'),
-    liveUrl: 'http://yoshi.sumof.best/', visual: 'leaderboard', featured: true,
+    liveUrl: 'http://yoshi.sumof.best/', featured: true,
   },
   {
     slug: 'sumof.best', title: 'sumof.best', category: 'Web & data',
     description: 'A visual archive of a speedrunner’s personal best history, with progression graphs, past records, and videos.',
     tags: ['TypeScript', 'Visualization', 'Speedrunning'], repository: repository('sumof.best'),
-    liveUrl: 'https://sumof.best', visual: 'records', featured: true,
+    liveUrl: 'https://sumof.best', featured: true,
   },
   {
     slug: 'lg-thinq-homekit', title: 'LG ThinQ → HomeKit', category: 'Smart home',

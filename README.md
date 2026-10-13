@@ -1,6 +1,6 @@
 # Florian’s portfolio
 
-A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Dark graphite, lime accents, original CSS project illustrations, and a filterable project collection.
+A responsive developer portfolio built with React, TypeScript, Vite, and Lucide icons. Neutral charcoal, system typography, and a filterable project index with direct repository and live-site links.
 
 ## Run locally
 
@@ -18,7 +18,7 @@ Open the URL printed by Vite. `npm run check` validates TypeScript, `npm run bui
 ```text
 public/                 Static assets such as the favicon
 src/
-  components/           Reusable navigation, links, cards, and project visuals
+  components/           Reusable navigation, links, and project entries
   data/portfolio.ts     Profile, project descriptions, categories, and links
   sections/             Hero, work, about, and contact sections
   styles/               Design tokens, layouts, and responsive styling
@@ -30,7 +30,7 @@ scripts/                Maintenance utilities
 
 ## Customize
 
-Edit `src/data/portfolio.ts` to change the profile and add or reorder projects. The first four projects use original interface illustrations (explicitly labeled as concepts), not actual screenshots. Replace them in `ProjectVisual.tsx` if you have product images. Update the about and contact copy in their section files. Colors, spacing, and typography are defined at the top of `src/styles/global.css`.
+Edit `src/data/portfolio.ts` to change the profile and add or reorder projects. Featured projects use larger entries in the index. Update the about and contact copy in their section files. Colors, spacing, and typography are defined in `src/styles/global.css`.
 
 The project collection is a curated snapshot of FlorianHoelzel’s public GitHub repositories, retrieved October 13, 2026. All project repositories are included; the GitHub profile README repository is accessible through the profile link. The VBB fork is labeled. No personal email address or employment history is assumed.
 
