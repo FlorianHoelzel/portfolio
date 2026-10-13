@@ -3,7 +3,6 @@ import { ArrowUpRight, Code2, Maximize2, X } from 'lucide-react';
 import type { Project } from '../types/project';
 import type { Showcase } from '../data/showcases';
 import { ExternalLink } from './ExternalLink';
-import { CorruptionPlayground } from '../features/work/CorruptionPlayground';
 
 interface ProjectShowcaseProps { project: Project; showcase: Showcase; priority?: boolean }
 
@@ -30,7 +29,7 @@ export function ProjectShowcase({ project, showcase, priority = false }: Project
           <ExternalLink href={project.repository}>Source code <ArrowUpRight size={15} /></ExternalLink>
         </div>
       </header>
-      <CorruptionPlayground><div className="showcase-preview">
+      <div className="showcase-preview">
         {image ? (
           <figure className="showcase-figure">
             <button className="showcase-image-button" onClick={() => dialog.current?.showModal()} aria-label={`Enlarge ${project.title} screenshot`}>
@@ -46,7 +45,7 @@ export function ProjectShowcase({ project, showcase, priority = false }: Project
             <p>Device configuration · excerpt from the public repository</p>
           </div>
         ) : null}
-      </div></CorruptionPlayground>
+      </div>
       <div className="showcase-detail-tabs" role="tablist" aria-label={`${project.title} details`}>
         {tabs.map((tab, index) => <button key={tab.id} ref={element => { detailTabs.current[index] = element; }}
           role="tab" id={`${project.slug}-${tab.id}-tab`} aria-selected={detail === tab.id}

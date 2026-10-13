@@ -2,7 +2,7 @@
 version: 1
 slug: "src-sections-work-tsx"
 primary_target: "src/sections/Work.tsx"
-related_targets: ["src/components/ProjectShowcase.tsx", "src/features/work/ProjectWorkbench.tsx"]
+related_targets: ["src/components/ProjectShowcase.tsx", "src/features/work/ProjectCarousel.tsx"]
 ---
 
 # Portfolio project showcases
@@ -11,18 +11,18 @@ Mode: Experience. Extend the existing portfolio for visitors exploring Florian's
 
 ## Direction contract
 
-THESIS: Explore the work in a single interactive workbench: choose a project, inspect its real screenshot or source excerpt, and switch between functional and technical details. Preserve the surrounding portfolio identity.
+THESIS: Explore the work in a single wide carousel: choose a project, inspect its real screenshot or source excerpt, and switch between functional and technical details. Preserve the surrounding portfolio identity.
 
 OWN-WORLD: Inherit charcoal #141414, pale text #e6e6e6, subtle rules #303030, and blue links #b9cdf0. Screenshots bring their own project colors; no invented UI or decorative framing.
 
 STORY: Visitors see TransitRadar's map, learn what MONOLITH connects, inspect Yoshi's prototype, and understand PB history in sumof.best. Every showcase leads directly to its repository or available live site.
 
-FIRST VIEWPORT: The existing introduction leads into a selected-project heading and a project selector beside TransitRadar's preview. Mobile uses a two-column selector above the preview and keeps full-size screenshot inspection.
+FIRST VIEWPORT: The existing introduction leads into a selected-project heading, previous/next controls, and a wide TransitRadar capture. A compact project picker sits below the slide. Mobile preserves vertical scrolling, horizontal swipes, and full-size screenshot inspection.
 
-FORM: User-selected interactive workbench inside the established visual system; no new visual identity tournament applies. A vertical selector controls one large preview and two detail tabs. Project hashes, keyboard navigation, reduced motion, and screenshot inspection remain supported. Four smaller projects remain below.
+FORM: User-selected wide carousel inside the established visual system. A single large stage uses previous/next arrows, a compact picker below, keyboard navigation, and touch swipes. Project hashes, reduced motion, and screenshot inspection remain supported. Four smaller projects remain below.
 
-CORRUPTION: The selected playground direction adds a user-triggered (1.35s) canvas effect inside the preview only: shifted image strips and ASCII fragments repair themselves. Source excerpts use the same bounded treatment. Reduced motion receives a static ASCII view with a restore action. Browser checks verified image/code repair, original-content preservation, cancellation on project switch, keyboard activation, mobile composition, screenshot inspection, and six responsive widths; no material issues remained in the desktop/source/mobile visual review.
+CORRUPTION: Each navigation corrupts the outgoing capture and repairs into the incoming project. Fresh seeded patterns vary uneven strips, torn patches, and ASCII clusters. Reduced motion switches immediately. Browser checks passed for both phases, repair, repeated random patterns, rapid-input guard, wraparound, picker and keyboard controls, hash reloads, swipes without accidental inspection, detail views, and eight responsive widths.
 
-FINISH: Browser review confirmed desktop, source, and mobile compositions. Checks passed for four project tabs, both detail views, keyboard navigation, project hash reloads, three screenshot dialogs and focus return, all filters, eight widths, and reduced motion. No material issues remain from that review. DESIGN.md records the workbench; existing shipping rasters retain their provenance.
+FINISH: Desktop, randomized corruption, source, and mobile captures were reviewed. Final checks passed for outgoing/incoming phases, automatic repair, fresh corruption seeds, guarded rapid input, wraparound, project picker, keyboard navigation, shared hashes, reduced motion, detail views, screenshot inspection, swipes, and eight widths. No material issues remain from that review. DESIGN.md records the carousel; shipping rasters retain provenance.
 
 Evidence: project READMEs and dependencies fetched from public GitHub; public-site screenshots captured October 13, 2026. Yoshi is a static prototype. sumof.best's captured archive is explicitly demo data. MONOLITH has no supplied screenshot and will show its actual device configuration excerpt instead of a fabricated dashboard.

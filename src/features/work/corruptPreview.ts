@@ -39,27 +39,48 @@ export function capturePreview(target: HTMLElement) {
   return { bitmap, pixels, columns: sample.width, rows: sample.height };
 }
 
-export function drawCorruption(context: CanvasRenderingContext2D, capture: NonNullable<ReturnType<typeof capturePreview>>, time: number, reducedMotion: boolean) {
+export type PreviewCapture = NonNullable<ReturnType<typeof capturePreview>>;
+
+const random = (seed: number) => {
+  const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return value - Math.floor(value);
+};
+
+export function drawCorruption(context: CanvasRenderingContext2D, capture: PreviewCapture, time: number, reducedMotion: boolean, seed = 1) {
   const { bitmap, pixels, columns, rows } = capture;
   const { width, height } = bitmap;
   context.clearRect(0, 0, width, height);
   context.drawImage(bitmap, 0, 0);
   const progress = Math.min(1, time / CORRUPTION_DURATION);
   const strength = reducedMotion ? 1 : Math.sin(Math.PI * progress) * Math.pow(1 - progress, .4);
-  const bands = 18;
-  for (let band = 0; band < bands; band++) {
-    const y = height * band / bands;
-    const bandHeight = Math.ceil(height / bands);
-    const wave = Math.sin(time * 7 + band * 2.3);
-    const offset = reducedMotion ? 0 : wave * strength * Math.min(38, width * .055);
-    context.drawImage(bitmap, 0, y, width, Math.min(bandHeight, height - y), offset, y, width, bandHeight);
-    if (band % 4 === 1) {
+  let y = 0;
+  for (let band = 0; y < height; band++) {
+    const bandSeed = seed + band * 31;
+    const bandHeight = Math.min(height - y, Math.ceil(height * (.013 + random(bandSeed) * .085)));
+    const wave = Math.sin(time * (3 + random(bandSeed + 1) * 5) + random(bandSeed + 2) * 6.28);
+    const offset = reducedMotion ? 0 : wave * strength * width * (.01 + random(bandSeed + 3) * .09);
+    context.drawImage(bitmap, 0, y, width, bandHeight, offset, y, width, bandHeight);
+    if (random(bandSeed + 4) > .65) {
       context.fillStyle = '#b9cdf0';
       context.globalAlpha = strength * .12;
       context.fillRect(0, y, width, bandHeight);
       context.globalAlpha = 1;
     }
+    y += bandHeight;
   }
+  // Independently torn rectangular patches break the regular scanline pattern.
+  for (let patch = 0; patch < 14; patch++) {
+    const patchSeed = seed + patch * 113;
+    const patchWidth = width * (.03 + random(patchSeed) * .22);
+    const patchHeight = height * (.025 + random(patchSeed + 1) * .14);
+    const x = random(patchSeed + 2) * (width - patchWidth);
+    const y = random(patchSeed + 3) * (height - patchHeight);
+    const dx = reducedMotion ? 0 : Math.sin(time * 5 + patch) * width * .08 * strength;
+    const dy = reducedMotion ? 0 : Math.cos(time * 4 + patch) * height * .025 * strength;
+    context.globalAlpha = strength * .8;
+    context.drawImage(bitmap, x, y, patchWidth, patchHeight, x + dx, y + dy, patchWidth, patchHeight);
+  }
+  context.globalAlpha = 1;
   const cellWidth = width / columns;
   const cellHeight = height / rows;
   context.font = `${Math.max(7, cellWidth * .95)}px Consolas, monospace`;
@@ -67,13 +88,13 @@ export function drawCorruption(context: CanvasRenderingContext2D, capture: NonNu
   context.textBaseline = 'middle';
   for (let row = 0; row < rows; row++) {
     for (let column = 0; column < columns; column++) {
-      // Several moving, feathered bands turn parts of the capture into ASCII.
-      const zone = reducedMotion ? 1 : Math.max(0, Math.sin(row * .65 - time * 3 + column * .035));
+      const cellSeed = seed + Math.floor(row / 3) * 71 + Math.floor(column / 5) * 97;
+      const zone = reducedMotion ? 1 : Math.max(0, Math.sin(time * (2 + random(cellSeed) * 3) + random(cellSeed + 1) * 6.28));
       const opacity = strength * zone;
       if (opacity < .08) continue;
       const index = (row * columns + column) * 4;
       const brightness = (pixels[index] * .2126 + pixels[index + 1] * .7152 + pixels[index + 2] * .0722) / 255;
-      const glyph = GLYPHS[Math.min(GLYPHS.length - 1, Math.floor(brightness * 9 + 2))];
+      const glyph = GLYPHS[Math.min(GLYPHS.length - 1, Math.floor(brightness * 7 + random(cellSeed + row + column) * 4 + 1))];
       const x = column * cellWidth, y = row * cellHeight;
       context.fillStyle = '#141414';
       context.globalAlpha = opacity * .85;

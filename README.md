@@ -22,7 +22,7 @@ src/
   data/portfolio.ts     Profile, project descriptions, categories, and links
   data/showcases.ts     Showcase copy, technical notes, and screenshot metadata
   features/hero/        ASCII cloud, name entrance, renderers, and hero styles
-  features/work/        Interactive project selection and workbench styling
+  features/work/        Project carousel, randomized corruption, and styling
   hooks/                Shared browser preference hooks
   sections/             Hero, work, about, and contact sections
   styles/               Design tokens, layouts, and responsive styling
@@ -34,11 +34,11 @@ scripts/                Maintenance utilities
 
 ## Customize
 
-Edit `src/data/portfolio.ts` to change the displayed name, profile, and repository links. Edit `src/data/showcases.ts` to change showcase order, copy, technical notes, and image captions. The four selected projects share an interactive workbench; other projects stay in the compact index. Update the about and contact copy in their section files. `src/styles/global.css` imports shared styling from `base.css`, dialog styling from `projects.css`, and feature styling from `src/features/hero/hero.css` and `src/features/work/workbench.css`.
+Edit `src/data/portfolio.ts` to change the displayed name, profile, and repository links. Edit `src/data/showcases.ts` to change showcase order, copy, technical notes, and image captions. The four selected projects share an wide carousel; other projects stay in the compact index. Update the about and contact copy in their section files. `src/styles/global.css` imports shared styling from `base.css`, dialog styling from `projects.css`, and feature styling from `src/features/hero/hero.css` and `src/features/work/carousel.css`.
 
-Choose a project to switch its preview, then use “What it does” or “How it works” for functional and technical details. Both sets of tabs support keyboard navigation. Share a project using its `#project-{slug}` URL. Screenshot inspection keeps Escape, focus return, and mobile scrolling; reduced motion disables the preview transition.
+Use previous/next arrows, the project picker, keyboard controls, or horizontal touch swipes to move through the four showcase projects. The carousel wraps at either end. “What it does” and “How it works” retain functional and technical details. Share a project using its `#project-{slug}` URL. Screenshot inspection keeps Escape, focus return, and mobile scrolling.
 
-“Corrupt view” briefly fractures the preview into shifted strips and ASCII fragments, then repairs it automatically. Reduced-motion users get a static ASCII view and a restore action. `src/features/work/CorruptionPlayground.tsx` manages its lifecycle; `corruptPreview.ts` renders the effect from the actual local image or source excerpt. Original content is preserved.
+Each project switch corrupts the outgoing preview, then repairs the incoming one. A fresh seed varies uneven strips, torn patches, and ASCII fragments. `src/features/work/CarouselTransition.tsx` manages the two phases; `corruptPreview.ts` renders from the actual image or source excerpt. Reduced-motion users switch immediately; original content is preserved. There is no autoplay or separate corruption control.
 
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 

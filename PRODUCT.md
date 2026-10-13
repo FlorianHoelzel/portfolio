@@ -48,7 +48,7 @@ The hero displays “Florian Hölzel.” Its approved entrance is a standalone s
 
 ## Evidence on Hand
 
-Florian selected an interactive workbench for the four showcase projects: a project selector beside a large screenshot or source preview, with compact functional and technical detail tabs. Keep the four smaller repositories in their simple list and retain actual captures and source evidence. He selected the corruption-playground treatment: a deliberate “Corrupt view” action briefly fractures the preview into shifted strips and scrambled ASCII, then repairs it. Reduced motion receives a static treatment with explicit restoration.
+Florian selected a wide carousel for the four showcase projects. Previous/next navigation, a compact project picker, keyboard controls, and touch swipes change the project. Each change randomly corrupts the outgoing preview and repairs into the next one; reduced motion switches immediately. Keep the four smaller repositories in their simple list and retain actual captures, functional copy, and technical notes.
 
 - `src/data/portfolio.ts`: curated project descriptions, categories, languages, repository links, and available live-site links.
 - `src/data/showcases.ts`: approved showcase projects, factual descriptions, technical notes, and image captions.
