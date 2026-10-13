@@ -1,4 +1,4 @@
-﻿---
+---
 name: Florian Hoelzel portfolio
 description: The implemented visual system for Florian's project portfolio.
 colors:
@@ -95,7 +95,7 @@ The interface places project names, descriptions, technical notes, and repositor
 
 ## Colors
 
-The root custom properties in `src/styles/global.css` own the palette; their values are recorded in the frontmatter.
+The root custom properties in `src/styles/base.css` own the palette; their values are recorded in the frontmatter.
 
 ### Primary
 - **Blue accent:** repository and live-site links, visible keyboard focus, and text selection.
@@ -154,13 +154,13 @@ The introduction includes a decorative React canvas cloud made from projected AS
 
 The magnetic treatment uses rolling lobes, a brief settling entrance, eased cursor-driven tilt, and a gentle local swirl and ripple with damped spring return. A Gaussian falloff keeps the hovered region populated instead of pushing particles out into an empty circle. Glyph sprites are cached rather than rasterized each frame; rendering targets 60 frames per second, caps backing resolution at 1.5×, and stops when offscreen or when the tab is hidden. Pointer tracking belongs to the hero, allowing normal links and text selection. Touch input does not capture gestures or require hover. Reduced-motion users receive a still composition without autoplay, pointer motion, or a motion toggle. The decorative canvas is hidden from assistive technology. The cursor hint and pause control are removed.
 
-Its implementation lives in `src/components/AsciiCloud.tsx` and `src/lib/asciiCloud.ts`. Preserve the approved portfolio layout when extending this treatment.
+Its implementation lives in `src/features/hero/AsciiCloud.tsx` and `src/features/hero/cloudRenderer.ts`. Preserve the approved portfolio layout when extending this treatment.
 
 ### Name entrance
 
 The hero heading reads “Florian Hölzel.” On every visit, a (1.6s) jumble of ASCII symbols scrambles locally in the heading, settles into its letter positions, and locks into the name in a staggered order. Small stray symbols dissipate as it settles. The final lettering crossfades into the real selectable heading. This effect is visually independent of the cloud and uses the heading's actual font metrics and bounding box. The real heading remains in the accessibility tree throughout, and other content remains usable.
 
-`HeroEntrance.tsx` owns the temporary decorative canvas and its lifecycle; `asciiName.ts` owns glyph scrambling and letter targets. `useCloudMotion.ts` shares the reduced-motion preference between both effects. The entrance pauses offscreen and in hidden tabs. It removes its canvas and restores full heading opacity when complete. The sequence replays on every page load, including returning visitors. Prior local-storage flags are ignored. Reduced-motion visitors see the finished heading immediately.
+`HeroEntrance.tsx` owns the temporary decorative canvas and its lifecycle; `nameScramble.ts` owns glyph scrambling and letter targets. `useReducedMotion.ts` shares the reduced-motion preference between both effects. The entrance pauses offscreen and in hidden tabs. It removes its canvas and restores full heading opacity when complete. The sequence replays on every page load, including returning visitors. Prior local-storage flags are ignored. Reduced-motion visitors see the finished heading immediately.
 
 ### Links and navigation
 Links retain the body family and use inline SVG icons where appropriate. Primary project links use the accent; hover changes them to primary text and, for showcase links, adds an underline. The shared keyboard treatment is a (2px) accent outline offset by (5px). Mobile navigation opens as a full-width inset panel under the header.
@@ -190,5 +190,4 @@ A native dialog opens from the image button. It supplies an accessible name, foc
 - **Don't** add rounded tag pills or shadowed cards to these established text and media patterns.
 - **Don't** promote screenshot colors or local code highlighting into portfolio-wide accent tokens.
 
-Source drift not canonized or repaired: the stylesheet retains earlier container, header, and hero declarations overridden by the showcase extension. This document records the final cascade. Unused eyebrow styling is not documented as a reusable component. The incumbent system display font is preserved by the approved scope, not generalized as a new craft rule.
-
+Styles are organized into shared base styling, project showcase styling, and hero feature styling. Obsolete eyebrow, topic, and hidden category rules and overridden container/header/hero definitions have been removed. The incumbent system display font is preserved by the approved scope.

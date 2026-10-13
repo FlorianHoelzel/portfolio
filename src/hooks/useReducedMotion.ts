@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function useCloudMotion() {
+export function useReducedMotion() {
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -8,5 +8,5 @@ export function useCloudMotion() {
     media.addEventListener('change', change);
     return () => media.removeEventListener('change', change);
   }, []);
-  return { reducedMotion };
+  return reducedMotion;
 }

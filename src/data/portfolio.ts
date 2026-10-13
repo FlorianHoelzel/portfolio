@@ -1,9 +1,8 @@
 import type { Category, Project } from '../types/project';
 
 export const profile = {
-  name: 'Florian',
+  name: 'Florian Hölzel',
   github: 'https://github.com/FlorianHoelzel',
-  tagline: 'Developer & builder',
   intro: 'Software for connected homes, public transport, and speedrunning. A selection of things I’ve built and shared on GitHub.',
 };
 

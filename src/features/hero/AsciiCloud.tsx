@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { createAsciiCloudRenderer, type CloudPointer } from '../lib/asciiCloud';
+﻿import { useEffect, useRef } from 'react';
+import { createAsciiCloudRenderer, type CloudPointer } from './cloudRenderer';
 
 interface AsciiCloudProps {
   reducedMotion: boolean;
@@ -94,3 +94,4 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
     <canvas ref={canvas} aria-hidden="true" className="ascii-cloud-canvas" />
   </div>;
 }
+

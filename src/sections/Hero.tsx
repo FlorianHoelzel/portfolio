@@ -1,16 +1,16 @@
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { profile } from '../data/portfolio';
 import { ExternalLink } from '../components/ExternalLink';
-import { AsciiCloud } from '../components/AsciiCloud';
-import { HeroEntrance } from '../components/HeroEntrance';
-import { useCloudMotion } from '../hooks/useCloudMotion';
+import { AsciiCloud } from '../features/hero/AsciiCloud';
+import { HeroEntrance } from '../features/hero/HeroEntrance';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export function Hero() {
-  const { reducedMotion } = useCloudMotion();
+  const reducedMotion = useReducedMotion();
   return (
     <section className="hero container" aria-labelledby="hero-heading">
       <AsciiCloud reducedMotion={reducedMotion} />
-      <h1 id="hero-heading">Florian Hölzel</h1>
+      <h1 id="hero-heading">{profile.name}</h1>
       <HeroEntrance reducedMotion={reducedMotion} />
       <p className="hero-intro">{profile.intro}</p>
       <div className="hero-links">

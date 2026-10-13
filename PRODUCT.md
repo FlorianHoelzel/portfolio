@@ -1,4 +1,4 @@
-﻿# Product
+# Product
 
 <!-- impeccable:product-schema 1 -->
 
@@ -67,4 +67,3 @@ No personal email address, employment history, client list, testimonials, or out
 ## Open Decisions
 
 No additional audience, recruiting goal, personal contact channel, or public hosting requirement has been confirmed. Resolve these only when needed for a requested change.
-

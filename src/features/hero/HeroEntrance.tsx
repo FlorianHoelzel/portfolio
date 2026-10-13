@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { createAsciiName, NAME_ENTRANCE_DURATION } from '../lib/asciiName';
+﻿import { useEffect, useRef, useState } from 'react';
+import { createAsciiName, NAME_ENTRANCE_DURATION } from './nameScramble';
 
 interface HeroEntranceProps { reducedMotion: boolean }
 
@@ -64,3 +64,4 @@ export function HeroEntrance({ reducedMotion }: HeroEntranceProps) {
 
   return finished ? null : <canvas className="hero-entrance" ref={canvas} aria-hidden="true" />;
 }
+
