@@ -1,5 +1,12 @@
 export interface CorruptionPoint { x: number; y: number; life: number }
-const GLYPHS = '.:;+=*ox%#@';
+const GLYPHS = '01{}[]<>/\\|!?$%&#@*+=:;';
+const SHADING = '.:-=+*#%@';
+
+// Stable spatial noise gives damaged regions a shape; time only changes their data.
+function noise(x: number, y: number, frame = 0) {
+  const value = Math.sin(x * 127.1 + y * 311.7 + frame * 74.7) * 43758.5453;
+  return value - Math.floor(value);
+}
 
 export function createCursorCorruption(target: HTMLElement, direction: 'next' | 'previous') {
   const bounds = target.getBoundingClientRect();
@@ -20,8 +27,8 @@ export function createCursorCorruption(target: HTMLElement, direction: 'next' | 
       ink.fillText(line.textContent?.trimEnd() || '', position.left - bounds.left, position.top - bounds.top + parseFloat(style.fontSize) * 1.3);
     }
   }
-  const columns = Math.max(20, Math.round(bitmap.width / 13));
-  const rows = Math.max(1, Math.round(bitmap.height / 17));
+  const columns = Math.max(20, Math.round(bitmap.width / 10));
+  const rows = Math.max(1, Math.round(bitmap.height / 13));
   const sample = document.createElement('canvas'); sample.width = columns; sample.height = rows;
   const sampleContext = sample.getContext('2d')!; sampleContext.drawImage(bitmap, 0, 0, columns, rows);
   const pixels = sampleContext.getImageData(0, 0, columns, rows).data;
@@ -31,38 +38,49 @@ export function createCursorCorruption(target: HTMLElement, direction: 'next' | 
     context.clearRect(0, 0, width, height);
     context.font = `${Math.max(9, cw * .95)}px Consolas, monospace`;
     context.textAlign = 'center'; context.textBaseline = 'middle';
-    const radius = width < 500 ? 64 : 95;
+    const radius = width < 500 ? 78 : 124;
     for (let row = 0; row < rows; row++) for (let column = 0; column < columns; column++) {
       const x = column * cw, y = row * ch;
+      const cellNoise = noise(column, row);
+      const blockNoise = noise(Math.floor(column / 4), Math.floor(row / 2));
+      const rowNoise = noise(0, row);
       let energy = full ? .9 : 0;
       const order = direction === 'next' ? 1 - column / columns : column / columns;
       if (!reduced) energy = Math.max(energy, Math.min(1, Math.max(0, (.75 - time - order * .12) * 3)));
       for (const point of points) {
-        const distance = Math.hypot(x + cw / 2 - point.x, y + ch / 2 - point.y);
-        energy = Math.max(energy, Math.max(0, 1 - distance / radius) * point.life);
+        const dx = Math.abs(x + cw / 2 - point.x);
+        const dy = Math.abs(y + ch / 2 - point.y);
+        // Uneven rectangular islands interrupt the core, rather than a soft circle.
+        const distance = Math.max(dx / (radius * (1 + rowNoise * .45)), dy / (radius * .7));
+        const reach = 1 + (blockNoise - .5) * .5;
+        const local = Math.max(0, Math.min(1, (reach - distance) * 2.2));
+        energy = Math.max(energy, local * Math.max(0, point.life));
       }
-      if (energy < .035) continue;
+      // Cells repair at different thresholds, breaking the trail into fragments.
+      const damage = Math.max(0, Math.min(1, (energy - cellNoise * .23) * 1.3));
+      if (damage < .035) continue;
       const index = (row * columns + column) * 4;
       const r = pixels[index], g = pixels[index + 1], b = pixels[index + 2];
       const brightness = (r * .2126 + g * .7152 + b * .0722) / 255;
-      const seed = Math.sin(column * 12.9898 + row * 78.233) * 43758.5453;
-      const noise = seed - Math.floor(seed);
-      // Cells stay fixed. Corruption substitutes glyphs rather than moving pixels.
-      context.globalAlpha = Math.min(1, energy * 1.5);
-      context.fillStyle = `rgb(${r}, ${g}, ${b})`;
+      const inverted = blockNoise > .83 && cellNoise > .2;
+      const brokenRow = rowNoise > .78 && blockNoise > .4;
+      // Inversion is spatially stable: the symbols mutate, the image never sways.
+      context.globalAlpha = damage;
+      context.fillStyle = inverted ? '#b9cdf0' : brokenRow ? '#263344' : '#11151a';
       context.fillRect(x, y, cw + 1, ch + 1);
-      context.fillStyle = '#141414'; context.globalAlpha = energy * .8;
-      context.fillRect(x, y, cw + 1, ch + 1);
-      context.fillStyle = brightness > .4 ? '#dfecff' : '#9cb5cb';
-      context.globalAlpha = Math.min(1, energy * 1.4);
-      const frame = reduced ? 0 : Math.floor(time * (8 + Math.floor(noise * 4)) + noise * 3);
-      const corruptSeed = Math.sin(column * 31 + row * 71 + frame * 17) * 43758.5453;
-      const corruptNoise = corruptSeed - Math.floor(corruptSeed);
-      const baseGlyph = Math.min(GLYPHS.length - 1, Math.floor(brightness * 6 + noise * 5));
-      const glyphIndex = energy > .2 && corruptNoise < energy
-        ? Math.floor(corruptNoise / Math.max(energy, .01) * GLYPHS.length)
+      const frame = reduced ? 0 : Math.floor(time * (10 + Math.floor(cellNoise * 5)) + blockNoise * 7);
+      const corruptNoise = noise(column, row, frame);
+      const baseGlyph = SHADING[Math.min(SHADING.length - 1, Math.floor(brightness * SHADING.length))];
+      const glyph = damage > .35
+        ? GLYPHS[Math.floor(corruptNoise * GLYPHS.length)]
         : baseGlyph;
-      context.fillText(GLYPHS[glyphIndex], x + cw / 2, y + ch / 2);
+      context.fillStyle = inverted ? '#141414' : cellNoise > .8 ? '#e6e6e6' : `rgb(${Math.round(135 + r * .4)}, ${Math.round(155 + g * .32)}, ${Math.round(180 + b * .28)})`;
+      context.globalAlpha = Math.min(1, damage * 1.6);
+      context.fillText(glyph, x + cw / 2, y + ch / 2);
+      if (brokenRow && cellNoise > .65) {
+        context.globalAlpha = damage * .65;
+        context.fillRect(x + 1, y + ch - 2, cw - 2, 1);
+      }
     }
     context.globalAlpha = 1;
   };

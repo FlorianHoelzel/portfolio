@@ -39,7 +39,7 @@ export function CursorPreview({ children, direction = 'next' }: { children: Reac
       const paint = () => draw(context, points, time, toggle.current, reducedMotion);
       const tick = (now: number) => {
         const delta = last ? Math.min(now - last, 50) / 1000 : 0; last = now; time += delta;
-        for (const point of points) point.life -= delta * 1.6;
+        for (const point of points) point.life -= delta * 1.15;
         while (points.length && points[0].life <= 0) points.shift();
         paint();
         if (time < .9 || points.length || toggle.current) frame = requestAnimationFrame(tick);
