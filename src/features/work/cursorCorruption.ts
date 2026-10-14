@@ -47,17 +47,22 @@ export function createCursorCorruption(target: HTMLElement, direction: 'next' | 
       const brightness = (r * .2126 + g * .7152 + b * .0722) / 255;
       const seed = Math.sin(column * 12.9898 + row * 78.233) * 43758.5453;
       const noise = seed - Math.floor(seed);
-      // Energy follows the cursor trail; it never punches an empty circular hole.
-      const displacement = reduced ? 0 : Math.sin(time * 8 + noise * 6.28) * energy * cw * .65;
+      // Cells stay fixed. Corruption substitutes glyphs rather than moving pixels.
       context.globalAlpha = Math.min(1, energy * 1.5);
       context.fillStyle = `rgb(${r}, ${g}, ${b})`;
-      context.fillRect(x + displacement, y, cw + 1, ch + 1);
+      context.fillRect(x, y, cw + 1, ch + 1);
       context.fillStyle = '#141414'; context.globalAlpha = energy * .8;
       context.fillRect(x, y, cw + 1, ch + 1);
       context.fillStyle = brightness > .4 ? '#dfecff' : '#9cb5cb';
       context.globalAlpha = Math.min(1, energy * 1.4);
-      const glyphIndex = Math.min(GLYPHS.length - 1, Math.floor(brightness * 6 + noise * 5));
-      context.fillText(GLYPHS[glyphIndex], x + cw / 2 + displacement, y + ch / 2);
+      const frame = reduced ? 0 : Math.floor(time * (8 + Math.floor(noise * 4)) + noise * 3);
+      const corruptSeed = Math.sin(column * 31 + row * 71 + frame * 17) * 43758.5453;
+      const corruptNoise = corruptSeed - Math.floor(corruptSeed);
+      const baseGlyph = Math.min(GLYPHS.length - 1, Math.floor(brightness * 6 + noise * 5));
+      const glyphIndex = energy > .2 && corruptNoise < energy
+        ? Math.floor(corruptNoise / Math.max(energy, .01) * GLYPHS.length)
+        : baseGlyph;
+      context.fillText(GLYPHS[glyphIndex], x + cw / 2, y + ch / 2);
     }
     context.globalAlpha = 1;
   };

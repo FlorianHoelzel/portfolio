@@ -189,3 +189,5 @@ A native dialog opens from the image button. It supplies an accessible name, foc
 - **Don't** promote screenshot colors or local code highlighting into portfolio-wide accent tokens.
 
 Styles are organized into shared base styling, project showcase styling, and hero feature styling. Obsolete eyebrow, topic, and hidden category rules and overridden container/header/hero definitions have been removed. The incumbent system display font is preserved by the approved scope.
+
+The cursor-corruption cells remain at fixed coordinates. Glyph substitution updates at staggered rates of 8-11 changes per second while energized, then resolves back to the sampled character as the trail fades. Pixel blocks no longer sway or oscillate. Reduced-motion output uses a fixed substitution frame.
