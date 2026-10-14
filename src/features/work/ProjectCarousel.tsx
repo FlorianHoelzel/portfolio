@@ -78,7 +78,7 @@ export function ProjectCarousel() {
         onKeyDown={event => { if (event.target === event.currentTarget) navigate(event); }}
         onTouchStart={startSwipe} onTouchEnd={endSwipe} onTouchCancel={() => { touch.current = null; }}
         onClickCapture={event => { if (suppressClick.current) { event.preventDefault(); event.stopPropagation(); suppressClick.current = false; } }}>
-        <ProjectShowcase key={project.slug} project={project} showcase={showcase} priority />
+        <ProjectShowcase key={project.slug} project={project} showcase={showcase} priority direction={direction} />
       </div>
       <div className="carousel-picker" role="tablist" aria-label="Choose a project">
         {entries.map(({ project: item }, index) => (

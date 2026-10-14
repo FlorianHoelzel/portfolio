@@ -21,8 +21,8 @@ FIRST VIEWPORT: Selected-project heading and navigation lead into an oversized T
 
 FORM: User-selected editorial spotlight within the existing charcoal/system-type world. Oversized project names, asymmetric artifact framing, and always-visible notes establish the visual hierarchy. Previous/next, picker, keyboard controls, swipes, shared hashes, and screenshot inspection remain.
 
-MOTION: Random corruption is removed. A single directional wipe reveals the new artifact over 450ms; reduced motion switches immediately. Navigation remains interruptible with no blocking animation state.
+MOTION: The user selected cursor corruption: local chunky pixels and ASCII follow pointer input and settle behind it. A 700ms title decode and roughly 750ms directional cell reconstruction accompany project selection. An explicit full-preview toggle supports keyboard/touch. Reduced motion is static and opt-in; idle/offscreen/hidden rendering suspends. Original project evidence and readable copy are preserved.
 
-FINISH: Desktop, source, and mobile compositions were reviewed. Final checks passed for all four spotlights, visible copy/notes, actual source, three screenshot dialogs and focus return, wraparound, keyboard controls, shared hashes, both wipe directions, reduced motion, swipes, ten widths, and the four additional projects. No material issues remained from the review.
+FINISH: Reconstruction, cursor trail, source, and mobile captures were reviewed. Final checks passed for bounded title decode, local pointer response, transparent restoration after settling, keyboard toggle, offscreen suspension, preserved source, reduced-motion static view and restore, mobile control, screenshot inspection, nine widths, four additional projects, and no browser errors. No material issues remained from that review.
 
 Evidence: project READMEs and dependencies fetched from public GitHub; public-site screenshots captured October 13, 2026. Yoshi is a static prototype. sumof.best's captured archive is explicitly demo data. MONOLITH has no supplied screenshot and will show its actual device configuration excerpt instead of a fabricated dashboard.

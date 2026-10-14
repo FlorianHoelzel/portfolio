@@ -38,7 +38,7 @@ Edit `src/data/portfolio.ts` to change the displayed name, profile, and reposito
 
 Use previous/next arrows, the project picker, keyboard controls, or horizontal touch swipes to move through the four editorial spotlights. Oversized project names lead into real screenshots or source excerpts, with functional descriptions and technical notes visible alongside. The carousel wraps at either end. Share a project using its `#project-{slug}` URL. Screenshot inspection keeps Escape, focus return, and mobile scrolling.
 
-Project switches use one directional CSS wipe. Reduced-motion users switch immediately. The old randomized corruption renderers and detail tabs were removed; hero ASCII effects are unchanged. There is no autoplay or corruption control.
+The showcase is a cursor corruption playground. Moving across a preview creates chunky sampled pixels and ASCII fragments that settle behind the cursor. Project changes decode the name and reconstruct the image/source view. “Play with ASCII” enables a full-preview treatment for touch or keyboard, with a restore action. Reduced-motion users receive static, explicitly toggled ASCII only. `CursorPreview.tsx`, `cursorCorruption.ts`, and `ScrambleTitle.tsx` own these behaviors under `src/features/work/`; the real project content remains unchanged.
 
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 

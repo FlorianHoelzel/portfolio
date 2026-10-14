@@ -3,24 +3,26 @@ import { ArrowUpRight, Code2, Maximize2, X } from 'lucide-react';
 import type { Project } from '../types/project';
 import type { Showcase } from '../data/showcases';
 import { ExternalLink } from './ExternalLink';
+import { CursorPreview } from '../features/work/CursorPreview';
+import { ScrambleTitle } from '../features/work/ScrambleTitle';
 
-interface ProjectShowcaseProps { project: Project; showcase: Showcase; priority?: boolean }
+interface ProjectShowcaseProps { project: Project; showcase: Showcase; priority?: boolean; direction?: 'next' | 'previous' }
 
-export function ProjectShowcase({ project, showcase, priority = false }: ProjectShowcaseProps) {
+export function ProjectShowcase({ project, showcase, priority = false, direction = 'next' }: ProjectShowcaseProps) {
   const dialog = useRef<HTMLDialogElement>(null);
   const { image, source } = showcase;
 
   return (
     <article id={`project-${project.slug}`} className="showcase">
       <header className="showcase-heading">
-        <h3>{project.title}</h3>
+        <h3><ScrambleTitle name={project.title} /></h3>
         <div className="showcase-links">
           {project.liveUrl && <ExternalLink href={project.liveUrl}>{project.slug === 'yoshi-leaderboards' ? 'Open prototype' : 'Visit site'} <ArrowUpRight size={15} /></ExternalLink>}
           <ExternalLink href={project.repository}>Source code <ArrowUpRight size={15} /></ExternalLink>
         </div>
       </header>
       <div className="spotlight-layout">
-      <div className="showcase-preview">
+      <div className="showcase-preview"><CursorPreview direction={direction}>
         {image ? (
           <figure className="showcase-figure">
             <button className="showcase-image-button" onClick={() => dialog.current?.showModal()} aria-label={`Enlarge ${project.title} screenshot`}>
@@ -36,7 +38,7 @@ export function ProjectShowcase({ project, showcase, priority = false }: Project
             <p>Device configuration · excerpt from the public repository</p>
           </div>
         ) : null}
-      </div>
+      </CursorPreview></div>
       <div className="showcase-details">
         <h4>{showcase.headline}</h4>
         <p className="showcase-summary">{showcase.summary}</p>

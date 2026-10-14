@@ -48,7 +48,7 @@ The hero displays “Florian Hölzel.” Its approved entrance is a standalone s
 
 ## Evidence on Hand
 
-Florian rejected the wide screenshot carousel and random corruption as visually boring. He selected the editorial spotlight: oversized project typography, asymmetric screenshot crops, and functional/technical notes beside the artifact. Project changes use one directional wipe. Preserve previous/next, keyboard, touch, and shared project URLs, the four showcase projects, and the four smaller repositories. Reduced motion switches immediately.
+Florian selected a cursor corruption playground for the editorial showcase: the preview responds locally to pointer movement with chunky pixels and ASCII, then settles behind the cursor. Project changes scramble the title and reconstruct the artifact. Preserve readable functional/technical notes, real screenshots/source, carousel navigation, shared project URLs, and the four additional projects. Touch and keyboard receive an explicit full-preview toggle; reduced motion uses a static treatment with restoration.
 
 - `src/data/portfolio.ts`: curated project descriptions, categories, languages, repository links, and available live-site links.
 - `src/data/showcases.ts`: approved showcase projects, factual descriptions, technical notes, and image captions.
