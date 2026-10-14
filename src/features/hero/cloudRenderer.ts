@@ -1,35 +1,68 @@
-// A projected cloud surface, with spring displacement for each ASCII particle.
-// Cached glyph sprites keep font rasterization out of the animation loop.
-const GLYPHS = '.:+=*ox%#@';
-const COLORS = ['#405c78', '#6386aa', '#8eafd1', '#b9cdf0', '#dfecff'];
-const PUFFS = [
-  { x: -.85, y: .2, z: .1, radius: .42 },
-  { x: -.5, y: -.04, z: -.16, radius: .52 },
-  { x: -.12, y: -.3, z: .2, radius: .58 },
-  { x: .42, y: -.13, z: -.12, radius: .56 },
-  { x: .88, y: .21, z: .1, radius: .42 },
-  { x: .1, y: .28, z: .26, radius: .65 },
+// A softly merged cumulus volume, shaded into ASCII cells rather than loose points.
+const TONES = '.:;=+*x%#@';
+const CORRUPTION = '01[]{}<>/\\?!_$%#';
+const GLYPHS = TONES + CORRUPTION;
+const COLORS = ['#3d5872', '#668ba8', '#99bcd2', '#c7dfea', '#edf6ff', '#141414'];
+const BILLOWS = [
+  { x: -1.03, y: .12, z: .03, radius: .36 },
+  { x: -.75, y: .02, z: -.05, radius: .42 },
+  { x: -.4, y: -.19, z: .02, radius: .57 },
+  { x: .49, y: -.2, z: -.04, radius: .49 },
+  { x: .98, y: .15, z: .03, radius: .34 },
+  { x: -.57, y: .24, z: .1, radius: .44 },
+  { x: .04, y: .25, z: .13, radius: .5 },
+  { x: .66, y: .25, z: .08, radius: .39 },
 ];
 
 export interface CloudPointer {
-  x: number;
-  y: number;
-  strength: number;
-  tiltX: number;
-  tiltY: number;
+  strokes: { x0: number; y0: number; x1: number; y1: number }[];
+}
+
+// Smooth union joins the billows without drawing independent spherical rims.
+function cloudDistance(x: number, y: number, z: number) {
+  let distance = 10;
+  for (const billow of BILLOWS) {
+    const next = Math.hypot(x - billow.x, y - billow.y, z - billow.z) - billow.radius;
+    const blend = Math.max(.12 - Math.abs(distance - next), 0) / .12;
+    distance = Math.min(distance, next) - blend * blend * .12 * .25;
+  }
+  // The cloud's shared base is flatter than its sunlit crown.
+  return Math.max(distance, y - .56);
+}
+
+interface CloudCell {
+  x: number; y: number; z: number; light: number; edge: number;
+  seed: number; row: number; dx: number; dy: number; vx: number; vy: number; corruption: number;
 }
 
 export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
-  const particles = PUFFS.flatMap((puff, puffIndex) => Array.from({ length: 260 }, (_, index) => {
-    const y = 1 - 2 * (index + .5) / 260;
-    const ring = Math.sqrt(1 - y * y);
-    const angle = index * Math.PI * (3 - Math.sqrt(5));
-    const x = Math.cos(angle) * ring;
-    const z = Math.sin(angle) * ring;
-    return { x: puff.x + x * puff.radius, y: puff.y + y * puff.radius, z: puff.z + z * puff.radius,
-      nx: x, ny: y, nz: z, puffIndex, index, dx: 0, dy: 0, vx: 0, vy: 0 };
-  }).filter(particle => !PUFFS.some((puff, index) => index !== particle.puffIndex &&
-    Math.hypot(particle.x - puff.x, particle.y - puff.y, particle.z - puff.z) < puff.radius * .96)));
+  const particles: CloudCell[] = [];
+  // Raymarch only on initialization. The frame loop animates the sampled surface.
+  for (let row = 0; row < 36; row++) {
+    for (let column = 0; column < 89; column++) {
+      const x = (column - 44) * .034;
+      const y = -1.15 + row * .053;
+      let z = 1.1;
+      let hit = false;
+      for (let step = 0; step < 36 && z > -.85; step++) {
+        const distance = cloudDistance(x, y, z);
+        if (distance < .008) { hit = true; break; }
+        z -= Math.max(.008, distance * .85);
+      }
+      if (!hit) continue;
+      const epsilon = .006;
+      const nx = cloudDistance(x + epsilon, y, z) - cloudDistance(x - epsilon, y, z);
+      const ny = cloudDistance(x, y + epsilon, z) - cloudDistance(x, y - epsilon, z);
+      const nz = cloudDistance(x, y, z + epsilon) - cloudDistance(x, y, z - epsilon);
+      const length = Math.hypot(nx, ny, nz) || 1;
+      const diffuse = Math.max(0, (-nx * .38 - ny * .72 + nz * .58) / length);
+      const occlusion = Math.max(0, Math.min(1, cloudDistance(x - .09, y - .15, z + .12) / .2));
+      const light = Math.max(.12, Math.min(1, .22 + diffuse * .68 + occlusion * .1));
+      const seed = ((column * 73 + row * 137) % 257) / 257;
+      particles.push({ x, y, z, light, edge: Math.min(1, Math.max(.35, nz / length * 2.8)),
+        seed, row, dx: 0, dy: 0, vx: 0, vy: 0, corruption: 0 });
+    }
+  }
 
   let atlas: HTMLCanvasElement;
   let fontSize = 0;
@@ -56,57 +89,82 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
     if (!width || !height) return;
     context.clearRect(0, 0, width, height);
     const compact = width < 500;
-    prepareGlyphs(compact ? 8 : 10);
-    const yaw = Math.sin(time * .48) * .42 + pointer.tiltX * .65;
-    const pitch = Math.sin(time * .34) * .14 - pointer.tiltY * .35;
-    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
-    const scale = Math.min(width / 3.25, (height - 70) / (compact ? 1.9 : 1.55));
-    const arrival = still ? 0 : Math.exp(-time * 2.4);
-    const radius = compact ? 65 : 105;
-    const step = Math.min(delta, 1 / 30);
-    const damping = Math.exp(-7 * step);
+    const scale = Math.min(width / 3.65, (height - 60) / 1.8);
+    // Glyphs and cell spacing scale together, including on narrow mobile screens.
+    prepareGlyphs(Math.max(6, Math.round(scale * .052)));
+    const step = Math.min(delta, .05);
+    const damping = Math.exp(-2.5 * step);
+    const radius = compact ? 40 : 62;
+    const strokes = pointer.strokes.splice(0);
+    const wind = still ? 0 : time;
 
     for (const particle of particles) {
-      // Rolling lobes make the silhouette visibly breathe even without a cursor.
-      const wave = Math.sin(time * 1.25 + particle.puffIndex * 1.4);
-      const px = particle.x + particle.nx * wave * .055;
-      const py = particle.y + Math.sin(time * .9 + particle.x * 2.5) * .075;
-      const pz = particle.z + particle.nz * wave * .055;
-      const rx = px * cy + pz * sy;
-      const rz = pz * cy - px * sy;
-      const ry = py * cp - rz * sp;
-      const depth = py * sp + rz * cp;
-      const perspective = 3.5 / (3.5 - depth);
-      const spread = 1 + arrival * .4;
-      const x = width * .53 + rx * scale * perspective * spread + Math.sin(time * .5) * 12;
-      const y = height * .46 + ry * scale * perspective * spread * (compact ? .82 : .68);
-      const dx = x - pointer.x, dy = y - pointer.y;
-      const distance = Math.hypot(dx, dy);
-      // Twist the existing surface rather than evacuating a circle around the cursor.
-      // The Gaussian falloff has no hard boundary, and displacement tends to zero
-      // at the center so characters continue to occupy the hovered region.
-      const proximity = Math.exp(-distance * distance / (radius * radius * .65)) * pointer.strength;
-      const twist = proximity * (.42 + Math.sin(time * .9) * .1) * (.8 + particle.nz * .2);
-      const ripple = Math.sin(distance / radius * 5 - time * 2) * proximity * .035;
-      const cosine = Math.cos(twist), sine = Math.sin(twist);
-      const targetX = (dx * cosine - dy * sine) * (1 + ripple) - dx;
-      const targetY = (dx * sine + dy * cosine) * (1 + ripple) - dy;
+      // Broad, shared currents preserve the cumulus shape; nothing rotates.
+      const current = particle.x * 1.8 - wind * .42;
+      const px = particle.x + Math.sin(current + particle.y * .7) * .035;
+      const py = particle.y + Math.sin(current + particle.z * .8) * .04
+        + Math.sin(particle.x * 3.3 - wind * .61) * .012;
+      const x = width * .55 + px * scale;
+      const y = height * .57 + py * scale;
+
       if (!still) {
-        particle.vx = (particle.vx + (targetX - particle.dx) * 110 * step) * damping;
-        particle.vy = (particle.vy + (targetY - particle.dy) * 110 * step) * damping;
+        particle.corruption *= Math.exp(-.85 * step);
+        for (const stroke of strokes) {
+          const sx = stroke.x1 - stroke.x0, sy = stroke.y1 - stroke.y0;
+          const length = Math.hypot(sx, sy);
+          if (length < .5) continue;
+          const along = Math.max(0, Math.min(1,
+            ((x + particle.dx - stroke.x0) * sx + (y + particle.dy - stroke.y0) * sy) / (length * length)));
+          const ox = x + particle.dx - stroke.x0 - sx * along;
+          const oy = y + particle.dy - stroke.y0 - sy * along;
+          const distance = Math.hypot(ox, oy);
+          if (distance > radius * 2) continue;
+          const influence = Math.exp(-distance * distance / (radius * radius)) * Math.min(length / 65, 1.4);
+          const side = particle.seed > .5 ? 1 : -1;
+          const outwardX = distance > 2 ? ox / distance : -sy / length * side;
+          const outwardY = distance > 2 ? oy / distance : sx / length * side;
+          const impulse = influence * (120 + particle.seed * 90);
+          particle.vx += (outwardX * .85 + sx / length * .7) * impulse;
+          particle.vy += (outwardY * .85 + sy / length * .7) * impulse;
+          particle.corruption = Math.min(1, particle.corruption + influence * 1.5);
+        }
+        const speed = Math.hypot(particle.vx, particle.vy);
+        if (speed > 380) { particle.vx *= 380 / speed; particle.vy *= 380 / speed; }
+        const gathering = 1.25 + particle.seed * .35;
+        particle.vx = (particle.vx - particle.dx * gathering * step) * damping;
+        particle.vy = (particle.vy - particle.dy * gathering * step) * damping;
         particle.dx += particle.vx * step;
         particle.dy += particle.vy * step;
       }
-      const normalZ = particle.nz * cy - particle.nx * sy;
-      const light = Math.max(0, Math.min(1, .45 + normalZ * .3 - particle.ny * .25));
-      const shade = Math.min(4, Math.floor(light * 5 + proximity));
-      const glyph = Math.min(GLYPHS.length - 1, Math.floor(light * (GLYPHS.length - 1)));
-      const drawY = y + particle.dy;
-      const edgeFade = Math.max(0, Math.min(1, drawY / 30, (height - 55 - drawY) / 25));
-      context.globalAlpha = Math.max(.18, Math.min(1, .55 + depth * .4 + proximity * .35)) * edgeFade;
-      const size = tile * (.8 + perspective * .2);
+
+      // Slow moving vapor texture modulates the actual surface lighting.
+      const texture = Math.sin(particle.x * 7 + particle.y * 5 - wind * .38)
+        * Math.sin(particle.y * 6 + particle.z * 3 + wind * .23) * .035;
+      const light = Math.max(0, Math.min(1, particle.light + texture));
+      const dispersed = still ? 0 : Math.min(1, Math.hypot(particle.dx, particle.dy) / 100);
+      const damage = still ? 0 : Math.max(particle.corruption, dispersed * .65);
+      let shade = Math.min(4, Math.floor(light * 5));
+      let glyph = Math.min(TONES.length - 1, Math.floor((.25 + light * .75) * (TONES.length - 1)));
+      const mutation = Math.floor(wind * (8 + particle.seed * 4) + particle.seed * 47);
+      const hash = Math.abs(Math.sin(mutation * 127.1 + particle.seed * 311.7));
+      if (damage > .08 && hash < damage) {
+        glyph = TONES.length + (mutation + Math.floor(particle.seed * 83)) % CORRUPTION.length;
+        shade = Math.min(4, shade + 1);
+      }
+      const tear = damage > .15 && particle.row % 5 === 0
+        ? Math.sin(Math.floor(wind * 9) + particle.row * 7) * damage * 12 : 0;
+      const drawX = x + (still ? 0 : particle.dx) + tear;
+      const drawY = y + (still ? 0 : particle.dy);
+      const edgeFade = Math.max(0, Math.min(1, drawY / 24, (height - drawY) / 24, drawX / 24, (width - drawX) / 24));
+      context.globalAlpha = (.74 + light * .26) * particle.edge * (1 - dispersed * .25) * edgeFade;
+      const inverted = damage > .25 && particle.seed > .88 && hash < damage * .7;
+      if (inverted) {
+        context.fillStyle = COLORS[3];
+        context.fillRect(drawX - fontSize * .35, drawY - fontSize * .52, fontSize * .7, fontSize * 1.04);
+        shade = 5;
+      }
       context.drawImage(atlas, glyph * tile * 2, shade * tile * 2, tile * 2, tile * 2,
-        x + particle.dx - size / 2, y + particle.dy - size / 2, size, size);
+        drawX - tile / 2, drawY - tile / 2, tile, tile);
     }
     context.globalAlpha = 1;
   };
