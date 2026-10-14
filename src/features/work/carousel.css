@@ -33,27 +33,17 @@
 .showcase-image-button img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 45% top; }
 .image-expand { position: absolute; bottom: 14px; right: 14px; display: flex; align-items: center; gap: 8px; padding: 10px 13px; background: var(--bg); border: 1px solid #616161; font-size: 11px; }
 .showcase-image-button:hover .image-expand { background: var(--line); }
-.showcase-figure figcaption { margin-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.6; }
 .scramble-title { display: block; position: relative; }
 .scramble-original.is-scrambling { opacity: .2; }
 .scramble-overlay { position: absolute; inset: 0; overflow: hidden; color: var(--accent); pointer-events: none; }
-.showcase-details { min-width: 0; padding-top: 24px; border-top: 1px solid var(--line); }
-.architecture-heading { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; margin-bottom: 22px; }
-.architecture-heading h4 { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
-.implementation-flow { display: flex; flex-wrap: wrap; gap: 8px 10px; list-style: none; margin: 0; padding: 0; }
-.implementation-flow li { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: 11px; line-height: 1.6; }
-.implementation-flow li:last-child { color: var(--accent); }
-.implementation-flow svg { flex-shrink: 0; }
-.showcase-story { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
-.showcase-story h5 { margin: 0 0 8px; color: var(--text); font-size: 13px; font-weight: 550; line-height: 1.5; }
-.showcase-story p { margin: 0; color: #b6b6b6; font-size: 13px; line-height: 1.8; }
-.showcase-story p code { font: .94em 'SFMono-Regular', Consolas, monospace; color: var(--text); overflow-wrap: anywhere; }
-.showcase-story .showcase-scope { grid-column: 1 / -1; display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 16px; padding-top: 18px; border-top: 1px solid var(--line); }
-.showcase-scope p { color: var(--muted); }
+.project-story-spread { min-width: 0; padding-block: 12px; }
+.project-story-spread h4 { margin: 0 0 24px; color: var(--text); font-size: 25px; line-height: 1.3; font-weight: 550; letter-spacing: -.025em; text-wrap: balance; }
+.story-spread-copy { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+.project-story-spread p { margin: 0; font-size: 15px; line-height: 1.8; color: var(--text); }
+.project-story-spread .story-implementation { color: var(--muted); font-size: 14px; }
 .showcase-stack { min-width: 0; }
 .showcase-stack .stack-trace { margin-top: 0; padding-top: 24px; }
 .showcase-stack .stack-trace-heading h4 { font-size: 18px; letter-spacing: -.02em; }
-.showcase-stack .stack-trace-heading { margin-bottom: 22px; }
 .service-topology { padding: 24px; border: 1px solid var(--line); background: #191919; min-width: 0; }
 .service-topology > h4 { margin: 0 0 28px; font-size: 16px; font-weight: 500; }
 .topology-layers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
@@ -69,7 +59,6 @@
   .project-carousel { grid-template-columns: 170px minmax(0, 1fr); gap: 28px; }
   .explorer-navigation { padding-right: 18px; }
   .showcase-heading h3 { font-size: clamp(38px, 5vw, 56px); }
-  .showcase-story { gap: 24px; }
 }
 @media (max-width: 900px) {
   .project-carousel { grid-template-columns: 1fr; gap: 28px; }
@@ -88,8 +77,8 @@
   .carousel-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .carousel-picker button { gap: 8px; }
   .showcase-summary.showcase-introduction { font-size: 17px; line-height: 1.65; margin-bottom: 24px; }
-  .showcase-story { grid-template-columns: 1fr; gap: 22px; }
-  .showcase-story .showcase-scope { grid-template-columns: 1fr; gap: 0; }
+  .story-spread-copy { grid-template-columns: 1fr; gap: 20px; }
+  .project-story-spread h4 { font-size: 23px; }
   .showcase-image-button { aspect-ratio: 16 / 10; }
   .image-expand { bottom: 9px; right: 9px; padding: 8px; font-size: 10px; }
   .topology-layers { grid-template-columns: 1fr; gap: 26px; }

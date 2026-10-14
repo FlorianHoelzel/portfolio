@@ -57,7 +57,7 @@ Florian selected a cursor corruption playground for the editorial showcase: the 
 - `src/sections/`: current introduction, project collection, about, and contact copy.
 - `README.md`: local setup, source organization, content maintenance, and static deployment instructions.
 
-No personal email address, employment history, client list, testimonials, or outcome metrics have been provided. MONOLITH has no supplied screenshot and shows an actual repository source excerpt. Yoshi is a browser-only prototype with static imported records; the sumof.best capture uses its publicly labeled demo data. Do not present invented interface illustrations as evidence of a project's actual UI.
+No personal email address, employment history, client list, testimonials, or outcome metrics have been provided. MONOLITH uses the main overview captured from the owner's local instance on October 14, 2026, with only the two upper-right household names redacted. The owner explicitly selected the main page with its presence states and activity feed retained. Subtitles beneath every project screenshot are removed as requested; provenance remains in metadata and the asset README. Screenshot viewers have no header bar, and the separator below each screenshot is removed. Do not add a public demo link to the private instance. Yoshi is a browser-only prototype with static imported records; the sumof.best capture uses its publicly labeled demo data. Do not present invented interface illustrations as evidence of a project's actual UI.
 
 ## Product Principles
 
@@ -69,3 +69,7 @@ No personal email address, employment history, client list, testimonials, or out
 ## Open Decisions
 
 No additional audience, recruiting goal, personal contact channel, or public hosting requirement has been confirmed. Resolve these only when needed for a requested change.
+
+The owner requested that the original MONOLITH topology section be retained alongside its screenshot and extended to all four featured projects. Each diagram describes that project's actual implementation; screenshots remain the leading preview.
+
+The owner selected the second generated project-story variant: one functional heading with a purpose paragraph and a concise implementation paragraph. This replaces the fragmented Architecture block for all four projects, retaining screenshots and topology. The layout uses two columns on desktop and a single reading flow on mobile.

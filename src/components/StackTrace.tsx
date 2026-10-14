@@ -4,7 +4,6 @@ import { projectStacks, type StackLayer } from '../data/project-stacks';
 import { ExternalLink } from './ExternalLink';
 
 interface Selection { name: string; role: string; source: string }
-const supportingLabels = new Set(['Python deps', 'Desktop', 'Deploy / test', 'Build', 'Types / test', 'Deploy', 'Build / deploy']);
 
 export function StackTrace({ slug, title, compact = false }: { slug: string; title: string; compact?: boolean }) {
   const layers = projectStacks[slug];
@@ -14,9 +13,6 @@ export function StackTrace({ slug, title, compact = false }: { slug: string; tit
   if (!layers) return null;
   const selected = focused ?? hovered ?? pinned;
   const count = layers.reduce((total, layer) => total + layer.items.length, 0);
-  const primary = layers.filter(layer => compact || !supportingLabels.has(layer.label));
-  const supporting = layers.filter(layer => !compact && supportingLabels.has(layer.label));
-  const supportingNames = new Set(supporting.flatMap(layer => layer.items.map(item => item.name)));
   const renderLayer = (layer: StackLayer) => (
     <div className="stack-layer" key={layer.label}>
       <span className="stack-layer-label">{layer.label}</span>
@@ -44,23 +40,18 @@ export function StackTrace({ slug, title, compact = false }: { slug: string; tit
     <section className={`stack-trace${compact ? ' stack-trace-compact' : ''}`} aria-label={`${title} technology stack`}
       onPointerLeave={() => setHovered(null)}
       onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(null); }}>
-      <div className="stack-trace-heading"><h4><GitBranch size={15} aria-hidden="true" />Stack trace</h4><span>{count} technologies</span></div>
-      <div className="stack-trace-layers">
-        {primary.map(renderLayer)}
-      </div>
-      {supporting.length > 0 && <details className="stack-support" onToggle={event => {
+      <details className="stack-disclosure" onToggle={event => {
         if (!event.currentTarget.open) {
-          const clearHidden = (current: Selection | null) => current && supportingNames.has(current.name) ? null : current;
-          setHovered(clearHidden); setFocused(clearHidden); setPinned(clearHidden);
+          setHovered(null); setFocused(null); setPinned(null);
         }
       }}>
-        <summary><span>More dependencies &amp; tooling</span><span className="stack-support-count">{supportingNames.size}</span><ChevronDown size={14} aria-hidden="true" /></summary>
-        <div className="stack-trace-layers">{supporting.map(renderLayer)}</div>
-      </details>}
+        <summary className="stack-trace-heading"><h4><GitBranch size={15} aria-hidden="true" />Stack trace</h4><span>{count} technologies</span><ChevronDown className="stack-disclosure-chevron" size={16} aria-hidden="true" /></summary>
+        <div className="stack-trace-layers">{layers.map(renderLayer)}</div>
       <div className="stack-inspector" data-selected={Boolean(selected)}>
         {selected ? <><p><strong>{selected.name}</strong><span>{selected.role}</span></p><ExternalLink href={selected.source} aria-label={`View ${selected.name} in the repository`}><ArrowUpRight size={16} aria-hidden="true" /></ExternalLink></>
           : <p className="stack-inspector-hint">Hover, focus, or tap a technology to inspect its role.</p>}
       </div>
+      </details>
     </section>
   );
 }

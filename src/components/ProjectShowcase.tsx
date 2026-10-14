@@ -5,8 +5,6 @@ import type { Showcase } from '../data/showcases';
 import { ExternalLink } from './ExternalLink';
 import { CursorPreview } from '../features/work/CursorPreview';
 import { ScrambleTitle } from '../features/work/ScrambleTitle';
-import { ProjectFlow } from './ProjectFlow';
-import { CodeText } from './CodeText';
 import { StackTrace } from './StackTrace';
 import { ServiceTopology } from './ServiceTopology';
 
@@ -14,7 +12,7 @@ interface ProjectShowcaseProps { project: Project; showcase: Showcase; priority?
 
 export function ProjectShowcase({ project, showcase, priority = false, direction = 'next' }: ProjectShowcaseProps) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const { image } = showcase;
+  const { image, story } = showcase;
 
   return (
     <article id={`project-${project.slug}`} className="showcase">
@@ -30,23 +28,25 @@ export function ProjectShowcase({ project, showcase, priority = false, direction
       {image && <div className="showcase-preview"><CursorPreview direction={direction}>
           <figure className="showcase-figure">
             <button className="showcase-image-button" onClick={() => dialog.current?.showModal()} aria-label={`Enlarge ${project.title} screenshot`}>
-              <img src={image.src} alt={image.alt} width={1440} height={960} loading={priority ? 'eager' : 'lazy'} decoding="async" />
+              <img src={image.src} alt={image.alt} width={image.width ?? 1440} height={image.height ?? 960} loading={priority ? 'eager' : 'lazy'} decoding="async" />
               <span className="image-expand"><Maximize2 size={15} /> View screenshot</span>
             </button>
-            <figcaption>{image.caption}</figcaption>
           </figure>
       </CursorPreview></div>}
-      {!image && <ServiceTopology />}
-      <div className="showcase-details">
-        <div className="architecture-heading"><h4>Architecture</h4><ProjectFlow steps={showcase.flow} /></div>
-        <div className="showcase-story">{showcase.narrative.map(section => <section key={section.title} className={section.scope ? 'showcase-scope' : undefined}><h5>{section.title}</h5><p><CodeText text={section.text} /></p></section>)}</div>
+      <ServiceTopology title={project.title} topology={showcase.topology} />
+      <div className="project-story-spread">
+        <h4>{story.heading}</h4>
+        <div className="story-spread-copy">
+          <p className="story-purpose">{story.purpose}</p>
+          <p className="story-implementation">{story.implementation}</p>
+        </div>
       </div>
       <div className="showcase-stack"><StackTrace slug={project.slug} title={project.title} /></div>
       </div>
       {image && (
         <dialog ref={dialog} className="screenshot-dialog" aria-label={`${project.title} screenshot`} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
-          <div className="screenshot-dialog-bar"><span>{project.title} — {image.caption}</span><button autoFocus onClick={() => dialog.current?.close()} aria-label="Close screenshot"><X size={21} /></button></div>
-          <div className="screenshot-dialog-image"><img src={image.src} alt={image.alt} width={1440} height={960} /></div>
+          <button className="screenshot-dialog-close" autoFocus onClick={() => dialog.current?.close()} aria-label="Close screenshot"><X size={21} /></button>
+          <div className="screenshot-dialog-image"><img src={image.src} alt={image.alt} width={image.width ?? 1440} height={image.height ?? 960} /></div>
         </dialog>
       )}
     </article>

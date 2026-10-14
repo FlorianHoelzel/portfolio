@@ -1,8 +1,13 @@
-.stack-trace { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 18px; min-width: 0; }
-.stack-trace-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.stack-trace { margin-top: 28px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-block: 18px; min-width: 0; }
+.stack-trace-heading { display: flex; align-items: center; gap: 16px; min-height: 44px; margin: 0; padding-block: 8px; cursor: pointer; list-style: none; }
+.stack-trace-heading::-webkit-details-marker { display: none; }
+.stack-trace-heading:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.stack-trace-heading:hover h4 { color: var(--accent); }
+.stack-disclosure > .stack-trace-layers { padding-top: 20px; }
+.stack-disclosure[open] > .stack-trace-heading .stack-disclosure-chevron { transform: rotate(180deg); }
 .stack-trace-heading h4 { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: var(--text); font-size: 13px; font-weight: 500; letter-spacing: 0; }
 .stack-trace-heading svg { color: var(--accent); }
-.stack-trace-heading > span { color: var(--muted); font: 11px/1.5 Consolas, monospace; }
+.stack-trace-heading > span { margin-left: auto; color: var(--muted); font: 11px/1.5 Consolas, monospace; }
 .stack-trace-layers { display: grid; gap: 12px; }
 .stack-layer { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 14px; }
 .stack-layer-label { padding-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.7; }
@@ -14,15 +19,6 @@
 .stack-node:hover, .stack-node:focus-visible, .stack-node[data-active] { color: var(--accent); border-bottom-color: var(--accent); }
 .stack-node[data-active]::before { background: var(--accent); border-color: var(--accent); }
 .stack-node:focus-visible { outline-offset: 3px; }
-.stack-support { margin-top: 18px; border-top: 1px solid var(--line); }
-.stack-support summary { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 12px 0; color: var(--accent); font-size: 12px; list-style: none; cursor: pointer; }
-.stack-support summary::-webkit-details-marker { display: none; }
-.stack-support summary:hover { color: var(--text); }
-.stack-support summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.stack-support-count { margin-left: auto; color: var(--muted); font: 11px Consolas, monospace; }
-.stack-support summary svg { flex-shrink: 0; }
-.stack-support[open] summary svg { transform: rotate(180deg); }
-.stack-support > .stack-trace-layers { padding-top: 10px; }
 .stack-inspector { display: flex; align-items: start; justify-content: space-between; gap: 12px; min-height: 76px; margin-top: 18px; padding-top: 13px; border-top: 1px solid var(--line); }
 .stack-inspector p { display: flex; flex-direction: column; gap: 4px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
 .stack-inspector strong { color: var(--accent); font-weight: 500; overflow-wrap: anywhere; }
@@ -30,7 +26,6 @@
 .stack-inspector a:hover { background: var(--line); }
 .stack-inspector-hint { padding-top: 3px; }
 .stack-trace-compact { margin-top: 18px; padding-top: 14px; }
-.stack-trace-compact .stack-trace-heading { margin-bottom: 12px; }
 .stack-trace-compact .stack-trace-heading h4 { font-size: 11px; letter-spacing: 0; }
 .stack-trace-compact .stack-layer { grid-template-columns: 65px minmax(0, 1fr); gap: 12px; }
 .stack-trace-compact .stack-trace-layers { gap: 5px; }
