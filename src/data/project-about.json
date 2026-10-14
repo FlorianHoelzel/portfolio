@@ -1,0 +1,18 @@
+{
+  "transitradar": {
+    "description": "Modern public transport platform with live departures, vehicle tracking and interactive maps, designed to support multiple cities through official transport APIs.",
+    "url": "https://github.com/FlorianHoelzel/transitradar"
+  },
+  "MONOLITH-public": {
+    "description": "Local-first smart home dashboard with HomeKit integration, device monitoring, calendars, shopping, and household management.",
+    "url": "https://github.com/FlorianHoelzel/MONOLITH-public"
+  },
+  "yoshi-leaderboards": {
+    "description": "Yoshi’s Island speedrun leaderboards with full-game and individual-level rankings, runner profiles, and record progression.",
+    "url": "https://github.com/FlorianHoelzel/yoshi-leaderboards"
+  },
+  "sumof.best": {
+    "description": "A visual archive of a speedrunner’s personal best history, including current records, obsolete runs, progression graphs, and videos.",
+    "url": "https://github.com/FlorianHoelzel/sumof.best"
+  }
+}

@@ -51,7 +51,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'robovac-g30', title: 'robovac-g30', category: 'Smart home',
-    description: 'Explore the source and documentation for this Python repository on GitHub.',
+    description: "Local Eufy RoboVac G30 integration for Apple Home using Python, Matterbridge and the Matter protocol",
     tags: ['Python'], repository: repository('robovac-g30'),
   },
 ];

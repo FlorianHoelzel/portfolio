@@ -1,4 +1,5 @@
 @import './base.css';
 @import './projects.css';
 @import '../features/work/carousel.css';
+@import '../features/work/stack-trace.css';
 @import '../features/hero/hero.css';

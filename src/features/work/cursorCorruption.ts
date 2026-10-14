@@ -17,15 +17,6 @@ export function createCursorCorruption(target: HTMLElement, direction: 'next' | 
   if (image) {
     const scale = Math.max(bitmap.width / image.naturalWidth, bitmap.height / image.naturalHeight);
     ink.drawImage(image, (bitmap.width - image.naturalWidth * scale) / 2, 0, image.naturalWidth * scale, image.naturalHeight * scale);
-  } else {
-    const style = getComputedStyle(target);
-    ink.fillStyle = '#1c1c1c'; ink.fillRect(0, 0, bitmap.width, bitmap.height);
-    ink.font = `${style.fontSize} Consolas, monospace`; ink.textBaseline = 'alphabetic';
-    for (const line of target.querySelectorAll<HTMLElement>('.source-line')) {
-      const position = line.getBoundingClientRect();
-      ink.fillStyle = style.color;
-      ink.fillText(line.textContent?.trimEnd() || '', position.left - bounds.left, position.top - bounds.top + parseFloat(style.fontSize) * 1.3);
-    }
   }
   const columns = Math.max(20, Math.round(bitmap.width / 10));
   const rows = Math.max(1, Math.round(bitmap.height / 13));
@@ -34,7 +25,7 @@ export function createCursorCorruption(target: HTMLElement, direction: 'next' | 
   const pixels = sampleContext.getImageData(0, 0, columns, rows).data;
   const width = bitmap.width, height = bitmap.height, cw = width / columns, ch = height / rows;
 
-  return (context: CanvasRenderingContext2D, points: CorruptionPoint[], time: number, full: boolean, reduced: boolean) => {
+  return (context: CanvasRenderingContext2D, points: CorruptionPoint[], time: number, reduced: boolean) => {
     context.clearRect(0, 0, width, height);
     context.font = `${Math.max(9, cw * .95)}px Consolas, monospace`;
     context.textAlign = 'center'; context.textBaseline = 'middle';
@@ -44,7 +35,7 @@ export function createCursorCorruption(target: HTMLElement, direction: 'next' | 
       const cellNoise = noise(column, row);
       const blockNoise = noise(Math.floor(column / 4), Math.floor(row / 2));
       const rowNoise = noise(0, row);
-      let energy = full ? .9 : 0;
+      let energy = 0;
       const order = direction === 'next' ? 1 - column / columns : column / columns;
       if (!reduced) energy = Math.max(energy, Math.min(1, Math.max(0, (.75 - time - order * .12) * 3)));
       for (const point of points) {

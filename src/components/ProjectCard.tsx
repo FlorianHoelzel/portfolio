@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import type { Project } from '../types/project';
 import { ExternalLink } from './ExternalLink';
+import { StackTrace } from './StackTrace';
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
@@ -9,7 +10,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       <div className="project-content">
         <h3><ExternalLink href={project.repository}>{project.title}<ArrowUpRight size={19} /></ExternalLink></h3>
         <p>{project.description}</p>
-        <div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+        <StackTrace slug={project.slug} title={project.title} compact />
       </div>
       <div className="project-links">
         {project.liveUrl && <ExternalLink href={project.liveUrl}>Visit site <ArrowUpRight size={14} /></ExternalLink>}

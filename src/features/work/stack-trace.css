@@ -1,0 +1,53 @@
+.stack-trace { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 18px; min-width: 0; }
+.stack-trace-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.stack-trace-heading h4 { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: var(--text); font-size: 13px; font-weight: 500; letter-spacing: 0; }
+.stack-trace-heading svg { color: var(--accent); }
+.stack-trace-heading > span { color: var(--muted); font: 11px/1.5 Consolas, monospace; }
+.stack-trace-layers { display: grid; gap: 12px; }
+.stack-layer { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 14px; }
+.stack-layer-label { padding-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.stack-layer ul { display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; min-width: 0; }
+.stack-layer li { position: relative; padding-right: 16px; max-width: 100%; }
+.stack-layer li::before { content: ''; position: absolute; top: 6px; left: 0; right: 0; border-top: 1px solid var(--line); pointer-events: none; }
+.stack-node { position: relative; display: block; min-height: 39px; max-width: 100%; padding: 13px 0 6px; border: 0; border-bottom: 1px solid transparent; background: none; color: #b6b6b6; font-size: 12px; line-height: 1.7; text-align: left; overflow-wrap: anywhere; }
+.stack-node::before { content: ''; position: absolute; left: 0; top: 3px; width: 7px; height: 7px; border: 1px solid #777; border-radius: 50%; background: var(--bg); }
+.stack-node:hover, .stack-node:focus-visible, .stack-node[data-active] { color: var(--accent); border-bottom-color: var(--accent); }
+.stack-node[data-active]::before { background: var(--accent); border-color: var(--accent); }
+.stack-node:focus-visible { outline-offset: 3px; }
+.stack-support { margin-top: 18px; border-top: 1px solid var(--line); }
+.stack-support summary { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 12px 0; color: var(--accent); font-size: 12px; list-style: none; cursor: pointer; }
+.stack-support summary::-webkit-details-marker { display: none; }
+.stack-support summary:hover { color: var(--text); }
+.stack-support summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.stack-support-count { margin-left: auto; color: var(--muted); font: 11px Consolas, monospace; }
+.stack-support summary svg { flex-shrink: 0; }
+.stack-support[open] summary svg { transform: rotate(180deg); }
+.stack-support > .stack-trace-layers { padding-top: 10px; }
+.stack-inspector { display: flex; align-items: start; justify-content: space-between; gap: 12px; min-height: 76px; margin-top: 18px; padding-top: 13px; border-top: 1px solid var(--line); }
+.stack-inspector p { display: flex; flex-direction: column; gap: 4px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+.stack-inspector strong { color: var(--accent); font-weight: 500; overflow-wrap: anywhere; }
+.stack-inspector a { display: grid; place-items: center; min-width: 32px; min-height: 32px; padding: 7px; color: var(--accent); }
+.stack-inspector a:hover { background: var(--line); }
+.stack-inspector-hint { padding-top: 3px; }
+.stack-trace-compact { margin-top: 18px; padding-top: 14px; }
+.stack-trace-compact .stack-trace-heading { margin-bottom: 12px; }
+.stack-trace-compact .stack-trace-heading h4 { font-size: 11px; letter-spacing: 0; }
+.stack-trace-compact .stack-layer { grid-template-columns: 65px minmax(0, 1fr); gap: 12px; }
+.stack-trace-compact .stack-trace-layers { gap: 5px; }
+.stack-trace-compact .stack-node { font-size: 10px; min-height: 36px; }
+.stack-trace-compact .stack-inspector { min-height: 68px; margin-top: 12px; }
+.project-content .stack-inspector p { margin: 0; font-size: 11px; line-height: 1.65; }
+@media (prefers-reduced-motion: no-preference) {
+  .stack-node { transition: color 140ms ease-out, border-color 140ms ease-out; }
+  .stack-node::before { transition: background-color 140ms ease-out, border-color 140ms ease-out; }
+}
+@media (max-width: 760px) {
+  .stack-node { min-height: 44px; }
+  .stack-trace-compact .stack-node { min-height: 44px; }
+}
+@media (max-width: 480px) {
+  .stack-layer, .stack-trace-compact .stack-layer { grid-template-columns: 1fr; gap: 4px; }
+  .stack-layer-label { padding-top: 0; }
+  .stack-trace-layers { gap: 16px; }
+  .stack-trace-compact .stack-trace-layers { gap: 12px; }
+}
