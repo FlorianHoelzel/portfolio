@@ -64,6 +64,10 @@ Run `npm run sync:github` to save fresh public metadata in `src/data/github-repo
 
 ## Deploy
 
+GitHub Pages is deployed by `.github/workflows/pages.yml` on every push to `main`. In the repository's **Settings → Pages**, select **GitHub Actions** as the publishing source. The workflow builds and publishes `dist/`, using the Pages base path so scripts, screenshots, and the favicon work at https://florianhoelzel.github.io/portfolio/. You can also run the workflow manually from the Actions tab.
+
+To check the Pages build locally in PowerShell, run `$env:VITE_BASE_PATH = '/portfolio/'; npm run build`, then `npm run preview` and open `/portfolio/`. Remove the environment variable afterward with `Remove-Item Env:VITE_BASE_PATH` to return to the default root path.
+
 Run `npm run build` and upload `dist/` to any static host. The site has no backend, runtime secrets, or client-side API dependency. `.openai/hosting.json` contains the Sites deployment configuration.
 
 Cursor corruption changes characters within fixed cells; it does not sway or jiggle the preview. Reduced motion keeps the character treatment static.
