@@ -48,7 +48,7 @@ The hero displays “Florian Hölzel.” Its approved entrance is a standalone s
 
 ## Evidence on Hand
 
-Florian selected a wide carousel for the four showcase projects. Previous/next navigation, a compact project picker, keyboard controls, and touch swipes change the project. Each change randomly corrupts the outgoing preview and repairs into the next one; reduced motion switches immediately. Keep the four smaller repositories in their simple list and retain actual captures, functional copy, and technical notes.
+Florian rejected the wide screenshot carousel and random corruption as visually boring. He selected the editorial spotlight: oversized project typography, asymmetric screenshot crops, and functional/technical notes beside the artifact. Project changes use one directional wipe. Preserve previous/next, keyboard, touch, and shared project URLs, the four showcase projects, and the four smaller repositories. Reduced motion switches immediately.
 
 - `src/data/portfolio.ts`: curated project descriptions, categories, languages, repository links, and available live-site links.
 - `src/data/showcases.ts`: approved showcase projects, factual descriptions, technical notes, and image captions.

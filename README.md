@@ -22,7 +22,7 @@ src/
   data/portfolio.ts     Profile, project descriptions, categories, and links
   data/showcases.ts     Showcase copy, technical notes, and screenshot metadata
   features/hero/        ASCII cloud, name entrance, renderers, and hero styles
-  features/work/        Project carousel, randomized corruption, and styling
+  features/work/        Editorial project spotlight, navigation, and styling
   hooks/                Shared browser preference hooks
   sections/             Hero, work, about, and contact sections
   styles/               Design tokens, layouts, and responsive styling
@@ -34,11 +34,11 @@ scripts/                Maintenance utilities
 
 ## Customize
 
-Edit `src/data/portfolio.ts` to change the displayed name, profile, and repository links. Edit `src/data/showcases.ts` to change showcase order, copy, technical notes, and image captions. The four selected projects share an wide carousel; other projects stay in the compact index. Update the about and contact copy in their section files. `src/styles/global.css` imports shared styling from `base.css`, dialog styling from `projects.css`, and feature styling from `src/features/hero/hero.css` and `src/features/work/carousel.css`.
+Edit `src/data/portfolio.ts` to change the displayed name, profile, and repository links. Edit `src/data/showcases.ts` to change showcase order, copy, technical notes, and image captions. The four selected projects share an editorial spotlight; other projects stay in the compact index. Update the about and contact copy in their section files. `src/styles/global.css` imports shared styling from `base.css`, dialog styling from `projects.css`, and feature styling from `src/features/hero/hero.css` and `src/features/work/carousel.css`.
 
-Use previous/next arrows, the project picker, keyboard controls, or horizontal touch swipes to move through the four showcase projects. The carousel wraps at either end. “What it does” and “How it works” retain functional and technical details. Share a project using its `#project-{slug}` URL. Screenshot inspection keeps Escape, focus return, and mobile scrolling.
+Use previous/next arrows, the project picker, keyboard controls, or horizontal touch swipes to move through the four editorial spotlights. Oversized project names lead into real screenshots or source excerpts, with functional descriptions and technical notes visible alongside. The carousel wraps at either end. Share a project using its `#project-{slug}` URL. Screenshot inspection keeps Escape, focus return, and mobile scrolling.
 
-Each project switch corrupts the outgoing preview, then repairs the incoming one. A fresh seed varies uneven strips, torn patches, and ASCII fragments. `src/features/work/CarouselTransition.tsx` manages the two phases; `corruptPreview.ts` renders from the actual image or source excerpt. Reduced-motion users switch immediately; original content is preserved. There is no autoplay or separate corruption control.
+Project switches use one directional CSS wipe. Reduced-motion users switch immediately. The old randomized corruption renderers and detail tabs were removed; hero ASCII effects are unchanged. There is no autoplay or corruption control.
 
 Screenshots are local assets under `public/images/projects/`, with source URLs documented there and provenance embedded in each JPEG. Click a screenshot to inspect it full size; Escape closes the viewer and returns focus. On small screens, the full-size image can be scrolled horizontally. The project websites are not loaded in iframes, so portfolio visitors do not trigger their APIs.
 
