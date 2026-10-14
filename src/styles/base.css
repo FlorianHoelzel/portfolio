@@ -1,4 +1,4 @@
-﻿
+
 :root {
   color-scheme: dark;
   --bg: #141414;
@@ -70,42 +70,8 @@ svg {
 .skip-link:focus {
   transform: translateY(0);
 }
-.header-inner {
-  height: 84px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.wordmark {
-  font-family: Consolas, monospace;
-  font-weight: 500;
-  font-size: 20px;
-  letter-spacing: -1px;
-}
-.wordmark span {
-  color: #737373;
-  margin-left: 4px;
-}
-.navigation {
-  display: flex;
-  gap: 27px;
-  align-items: center;
-  font-size: 13px;
-  color: var(--muted);
-}
-.navigation a {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-.navigation a:hover, .hero-links a:hover, .project-links a:hover, .work-footer a:hover, .footer a:hover {
+.hero-links a:hover, .project-links a:hover, .work-footer a:hover, .footer a:hover {
   color: var(--text);
-}
-.nav-github {
-  margin-left: 10px;
-}
-.menu-toggle {
-  display: none;
 }
 h1 {
   font-size: clamp(42px, 6vw, 66px);
@@ -143,6 +109,10 @@ h2 {
   gap: 20px;
   padding: 30px 0;
   border-bottom: 1px solid var(--line);
+}
+.project-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 12px;
 }
 .project-index {
   padding-top: 3px;
@@ -236,7 +206,7 @@ h2 {
   padding-top: 30px;
 }
 .about-section {
-  margin-top: 75px;
+  margin-top: 32px;
 }
 .about-copy p {
   font-size: 14px;
@@ -303,9 +273,6 @@ h2 {
   .container {
     width: calc(100% - 40px);
   }
-  .header-inner {
-    height: 77px;
-  }
   .section-aside {
     display: none;
   }
@@ -357,37 +324,6 @@ h2 {
   }
 }
 @media (max-width: 480px) {
-  .menu-toggle {
-    display: grid;
-    place-items: center;
-    background: transparent;
-    color: var(--text);
-    border: 0;
-    padding: 8px;
-  }
-  .menu-toggle svg {
-    width: 20px;
-    height: 20px;
-  }
-  .navigation {
-    display: none;
-    position: absolute;
-    top: 77px;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    background: #1c1c1c;
-    padding: 22px;
-    gap: 23px;
-    border-bottom: 1px solid var(--line);
-  }
-  .navigation.is-open {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .nav-github {
-    margin-left: 0;
-  }
   h1 {
     font-size: 40px;
   }
@@ -397,10 +333,3 @@ h2 {
     scroll-behavior: auto;
   }
 }
-.wordmark {
-  color: var(--accent);
-}
-.navigation a:hover {
-  color: var(--accent);
-}
-

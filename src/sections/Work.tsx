@@ -1,7 +1,5 @@
-import { ArrowUpRight, Github } from 'lucide-react';
-import { profile, projects } from '../data/portfolio';
+import { projects } from '../data/portfolio';
 import { ProjectCard } from '../components/ProjectCard';
-import { ExternalLink } from '../components/ExternalLink';
 import { ProjectCarousel } from '../features/work/ProjectCarousel';
 
 const otherProjects = projects.filter(project => !project.featured);
@@ -12,6 +10,5 @@ export function Work() {
     <ProjectCarousel />
     <div className="section-heading other-projects-heading"><h2>More projects</h2><span className="section-aside">Integrations and smaller experiments</span></div>
     <div className="projects-grid">{otherProjects.map(project => <ProjectCard project={project} key={project.slug} index={projects.indexOf(project)} />)}</div>
-    <div className="work-footer"><ExternalLink href={`${profile.github}?tab=repositories`}><Github size={15} /> All repositories on GitHub <ArrowUpRight size={14} /></ExternalLink></div>
   </section>;
 }

@@ -1,10 +1,11 @@
 ﻿
 .hero {
-  padding-block: 40px 45px;
+  padding-block: 124px 45px;
   position: relative;
   isolation: isolate;
 }
 .hero-intro {
+  white-space: pre-line;
   font-size: 17px;
   color: #b3b3b3;
   line-height: 1.75;
@@ -24,9 +25,6 @@
   align-items: center;
   gap: 9px;
   color: var(--accent);
-}
-.hero-links a:first-child {
-  color: var(--text);
 }
 .hero-entrance {
   position: absolute;
@@ -49,7 +47,7 @@
   width: min(66vw, 730px);
   height: 350px;
   right: -60px;
-  top: -50px;
+  top: 34px;
 }
 .ascii-cloud-canvas {
   display: block;
@@ -74,7 +72,7 @@
 }
 @media (max-width: 700px) {
   .hero {
-    padding-block: 0 36px;
+    padding-block: 77px 36px;
   }
   .hero-intro {
     font-size: 15px;

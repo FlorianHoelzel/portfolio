@@ -25,7 +25,7 @@
 .stack-inspector a { display: grid; place-items: center; min-width: 32px; min-height: 32px; padding: 7px; color: var(--accent); }
 .stack-inspector a:hover { background: var(--line); }
 .stack-inspector-hint { padding-top: 3px; }
-.stack-trace-compact { margin-top: 18px; padding-top: 14px; }
+.stack-trace-compact { margin-top: 12px; padding-block: 0; border: 0; }
 .stack-trace-compact .stack-trace-heading h4 { font-size: 11px; letter-spacing: 0; }
 .stack-trace-compact .stack-layer { grid-template-columns: 65px minmax(0, 1fr); gap: 12px; }
 .stack-trace-compact .stack-trace-layers { gap: 5px; }

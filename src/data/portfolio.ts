@@ -3,7 +3,10 @@ import type { Project } from '../types/project';
 export const profile = {
   name: 'Florian Hölzel',
   github: 'https://github.com/FlorianHoelzel',
-  intro: 'Software for connected homes, public transport, and speedrunning. A selection of things I’ve built and shared on GitHub.',
+  intro: `I'm a developer with a focus on Python, custom smart home integrations, and modern web projects.
+A big part of what I enjoy is making my home smarter and bringing different devices and services together in one place.
+When something doesn't integrate the way I want it to, I like building my own solution.
+Outside of that, I also like creating useful websites for niche communities.`,
 };
 
 const repository = (name: string) => `${profile.github}/${name}`;
