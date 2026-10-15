@@ -146,6 +146,8 @@ The cloud is a smooth union of cumulus billows sampled by raymarching once at in
 
 Its implementation lives in `src/features/hero/AsciiCloud.tsx` and `src/features/hero/cloudRenderer.ts`. Preserve the approved portfolio layout when extending this treatment.
 
+The living sky in `src/features/hero/livingSky.ts` follows the visitor's local clock: an ASCII sun and crescent cross the space behind the vapor, with warm dawn/dusk transitions and sparse stars at night. The authored cycle uses fixed local hours, without weather, geolocation, or astronomical sunrise claims. Cloud shading follows the celestial light direction; displaced cells uncover the sky. Celestial glyphs and cloud palettes are cached, and the clock refreshes every 30 seconds while visible. Reduced motion keeps a still scene while retaining time-of-day updates. The sky preserves the existing hero layout and adds no dependencies or network requests. The temporary time-of-day testing slider is removed; the scene always follows live local time. Both celestial paths continue through their dawn/dusk fades without stopping at the horizon.
+
 ### Name entrance
 
 The hero heading reads “Florian Hölzel.” On every visit, a (1.6s) jumble of ASCII symbols scrambles locally in the heading, settles into its letter positions, and locks into the name in a staggered order. Small stray symbols dissipate as it settles. The final lettering crossfades into the real selectable heading. This effect is visually independent of the cloud and uses the heading's actual font metrics and bounding box. The real heading remains in the accessibility tree throughout, and other content remains usable.

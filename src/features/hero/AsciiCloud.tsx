@@ -1,5 +1,6 @@
 ﻿import { useEffect, useRef } from 'react';
 import { createAsciiCloudRenderer, type CloudPointer } from './cloudRenderer';
+import { getSkyState } from './livingSky';
 
 interface AsciiCloudProps {
   reducedMotion: boolean;
@@ -9,7 +10,6 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const animationTime = useRef(0);
-
   useEffect(() => {
     const element = canvas.current;
     const wrapper = container.current;
@@ -23,6 +23,7 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
     let lastTick = 0;
     const stopped = reducedMotion;
     const draw = createAsciiCloudRenderer(context);
+    let sky = getSkyState(new Date());
     const pointer: CloudPointer = { strokes: [] };
     let previous: { x: number; y: number; time: number } | null = null;
     // Listen on the hero so pointer tracking never obstructs links or text selection.
@@ -41,7 +42,7 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
       previous = { x, y, time: mouse.timeStamp };
     };
     const leave = () => { previous = null; pointer.strokes.length = 0; };
-    const paint = (delta = 0) => draw(width, height, reducedMotion ? 0 : animationTime.current, pointer, delta, stopped);
+    const paint = (delta = 0) => draw(width, height, reducedMotion ? 0 : animationTime.current, pointer, delta, stopped, sky);
     const tick = (now: number) => {
       const delta = lastTick ? Math.min(now - lastTick, 50) / 1000 : 0;
       animationTime.current += delta;
@@ -57,6 +58,7 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
       lastTick = 0;
       lastFrame = 0;
       leave();
+      sky = getSkyState(new Date());
       paint();
       if (!stopped && visible && !document.hidden) frame = requestAnimationFrame(tick);
     };
@@ -76,7 +78,14 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
     hero.addEventListener('pointermove', move);
     hero.addEventListener('pointerleave', leave);
     window.addEventListener('blur', leave);
+    // Keep even the still scene current, without animating reduced-motion visitors.
+    const clock = window.setInterval(() => {
+      if (!visible || document.hidden) return;
+      sky = getSkyState(new Date());
+      if (stopped) paint();
+    }, 30_000);
     return () => {
+      window.clearInterval(clock);
       cancelAnimationFrame(frame);
       resize.disconnect();
       observer.disconnect();

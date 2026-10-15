@@ -1,8 +1,9 @@
+import { createSkyRenderer, getSkyState, type SkyState } from './livingSky';
+
 // A softly merged cumulus volume, shaded into ASCII cells rather than loose points.
 const TONES = '.:;=+*x%#@';
 const CORRUPTION = '01[]{}<>/\\?!_$%#';
 const GLYPHS = TONES + CORRUPTION;
-const COLORS = ['#3d5872', '#668ba8', '#99bcd2', '#c7dfea', '#edf6ff', '#141414'];
 const BILLOWS = [
   { x: -1.03, y: .12, z: .03, radius: .36 },
   { x: -.75, y: .02, z: -.05, radius: .42 },
@@ -32,11 +33,13 @@ function cloudDistance(x: number, y: number, z: number) {
 
 interface CloudCell {
   x: number; y: number; z: number; light: number; edge: number;
+  nx: number; ny: number; nz: number;
   seed: number; row: number; dx: number; dy: number; vx: number; vy: number; corruption: number;
 }
 
 export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
   const particles: CloudCell[] = [];
+  const drawSky = createSkyRenderer(context);
   // Raymarch only on initialization. The frame loop animates the sampled surface.
   for (let row = 0; row < 36; row++) {
     for (let column = 0; column < 89; column++) {
@@ -60,6 +63,7 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
       const light = Math.max(.12, Math.min(1, .22 + diffuse * .68 + occlusion * .1));
       const seed = ((column * 73 + row * 137) % 257) / 257;
       particles.push({ x, y, z, light, edge: Math.min(1, Math.max(.35, nz / length * 2.8)),
+        nx: nx / length, ny: ny / length, nz: nz / length,
         seed, row, dx: 0, dy: 0, vx: 0, vy: 0, corruption: 0 });
     }
   }
@@ -67,31 +71,40 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
   let atlas: HTMLCanvasElement;
   let fontSize = 0;
   let tile = 0;
-  const prepareGlyphs = (size: number) => {
-    if (fontSize === size) return;
+  let colors: string[] = [];
+  let paletteKey = '';
+  const prepareGlyphs = (size: number, palette: string[]) => {
+    const key = palette.join();
+    if (fontSize === size && key === paletteKey) return;
+    paletteKey = key;
+    colors = palette;
     fontSize = size;
     tile = Math.ceil(size * 2);
     atlas = document.createElement('canvas');
     atlas.width = tile * GLYPHS.length * 2;
-    atlas.height = tile * COLORS.length * 2;
+    atlas.height = tile * colors.length * 2;
     const ink = atlas.getContext('2d')!;
     ink.scale(2, 2);
     ink.font = `${size}px Consolas, 'Liberation Mono', monospace`;
     ink.textAlign = 'center';
     ink.textBaseline = 'middle';
-    COLORS.forEach((color, row) => {
+    colors.forEach((color, row) => {
       ink.fillStyle = color;
       Array.from(GLYPHS).forEach((glyph, column) => ink.fillText(glyph, (column + .5) * tile, (row + .5) * tile));
     });
   };
 
-  return (width: number, height: number, time: number, pointer: CloudPointer, delta: number, still: boolean) => {
+  return (width: number, height: number, time: number, pointer: CloudPointer, delta: number, still: boolean,
+    sky: SkyState = getSkyState(new Date())) => {
     if (!width || !height) return;
     context.clearRect(0, 0, width, height);
     const compact = width < 500;
     const scale = Math.min(width / 3.65, (height - 60) / 1.8);
     // Glyphs and cell spacing scale together, including on narrow mobile screens.
-    prepareGlyphs(Math.max(6, Math.round(scale * .052)));
+    prepareGlyphs(Math.max(6, Math.round(scale * .052)), sky.colors);
+    const lightSource = drawSky(width, height, scale, time, still, sky);
+    const lightX = (lightSource.x - width * .55) / scale;
+    const lightY = (lightSource.y - height * .57) / scale;
     const step = Math.min(delta, .05);
     const damping = Math.exp(-2.5 * step);
     const radius = compact ? 40 : 62;
@@ -100,7 +113,7 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
 
     for (const particle of particles) {
       // Broad, shared currents preserve the cumulus shape; nothing rotates.
-      const current = particle.x * 1.8 - wind * .42;
+      const current = particle.x * 1.8 - wind * (.32 + sky.day * .16);
       const px = particle.x + Math.sin(current + particle.y * .7) * .035;
       const py = particle.y + Math.sin(current + particle.z * .8) * .04
         + Math.sin(particle.x * 3.3 - wind * .61) * .012;
@@ -140,7 +153,10 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
       // Slow moving vapor texture modulates the actual surface lighting.
       const texture = Math.sin(particle.x * 7 + particle.y * 5 - wind * .38)
         * Math.sin(particle.y * 6 + particle.z * 3 + wind * .23) * .035;
-      const light = Math.max(0, Math.min(1, particle.light + texture));
+      const lx = lightX - particle.x, ly = lightY - particle.y;
+      const lightLength = Math.hypot(lx, ly, 1.8);
+      const directional = Math.max(0, (particle.nx * lx + particle.ny * ly + particle.nz * 1.8) / lightLength);
+      const light = Math.max(0, Math.min(1, particle.light * .5 + directional * .48 + .08 + texture));
       const dispersed = still ? 0 : Math.min(1, Math.hypot(particle.dx, particle.dy) / 100);
       const damage = still ? 0 : Math.max(particle.corruption, dispersed * .65);
       let shade = Math.min(4, Math.floor(light * 5));
@@ -156,10 +172,12 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
       const drawX = x + (still ? 0 : particle.dx) + tear;
       const drawY = y + (still ? 0 : particle.dy);
       const edgeFade = Math.max(0, Math.min(1, drawY / 24, (height - drawY) / 24, drawX / 24, (width - drawX) / 24));
+      // Each vapor cell occludes the sky; scattered cells uncover the light behind it.
+      context.clearRect(drawX - scale * .018, drawY - scale * .028, scale * .036, scale * .056);
       context.globalAlpha = (.74 + light * .26) * particle.edge * (1 - dispersed * .25) * edgeFade;
       const inverted = damage > .25 && particle.seed > .88 && hash < damage * .7;
       if (inverted) {
-        context.fillStyle = COLORS[3];
+        context.fillStyle = colors[3];
         context.fillRect(drawX - fontSize * .35, drawY - fontSize * .52, fontSize * .7, fontSize * 1.04);
         shade = 5;
       }
