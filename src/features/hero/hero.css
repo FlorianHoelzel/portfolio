@@ -1,6 +1,6 @@
 ﻿
 .hero {
-  padding-block: 124px 45px;
+  padding-block: 64px;
   position: relative;
   isolation: isolate;
 }
@@ -40,6 +40,7 @@
 }
 .hero h1 {
   width: fit-content;
+  font-size: clamp(30px, 4.5vw, 52px);
 }
 .ascii-cloud {
   position: absolute;
@@ -47,7 +48,8 @@
   width: min(66vw, 730px);
   height: 350px;
   right: -60px;
-  top: 34px;
+  top: 50%;
+  transform: translate(32px, -50%);
 }
 .ascii-cloud-canvas {
   display: block;
@@ -87,6 +89,7 @@
     height: 230px;
     right: auto;
     top: auto;
+    transform: none;
     margin-top: -15px;
     margin-bottom: 24px;
   }

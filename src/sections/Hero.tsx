@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className="hero container" aria-labelledby="hero-heading">
       <AsciiCloud reducedMotion={reducedMotion} />
-      <h1 id="hero-heading">{profile.name}</h1>
+      <h1 id="hero-heading">Hello I'm Florian</h1>
       <HeroEntrance reducedMotion={reducedMotion} />
       <p className="hero-intro">{profile.intro}</p>
     </section>
