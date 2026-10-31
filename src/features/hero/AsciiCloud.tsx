@@ -8,8 +8,9 @@ interface AsciiCloudProps {
 
 export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLButtonElement>(null);
   const animationTime = useRef(0);
+  const entrancePlayed = useRef(false);
   useEffect(() => {
     const element = canvas.current;
     const wrapper = container.current;
@@ -24,7 +25,18 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
     const stopped = reducedMotion;
     const draw = createAsciiCloudRenderer(context);
     let sky = getSkyState(new Date());
-    const pointer: CloudPointer = { strokes: [] };
+    const pointer: CloudPointer = { strokes: [], pulses: [] };
+    let lastPulse = -Infinity;
+    const burst = (event: MouseEvent) => {
+      if (stopped || !visible || document.hidden || animationTime.current - lastPulse < .5) return;
+      const bounds = wrapper.getBoundingClientRect();
+      // Keyboard activation originates at the center, pointer activation at the click.
+      const x = event.detail === 0 ? width * .55 : event.clientX - bounds.left;
+      const y = event.detail === 0 ? height * .57 : event.clientY - bounds.top;
+      pointer.pulses.push({ x, y, age: 0 });
+      lastPulse = animationTime.current;
+      entrancePlayed.current = true;
+    };
     let previous: { x: number; y: number; time: number } | null = null;
     // Listen on the hero so pointer tracking never obstructs links or text selection.
     const hero = wrapper.closest('.hero')!;
@@ -47,6 +59,11 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
       const delta = lastTick ? Math.min(now - lastTick, 50) / 1000 : 0;
       animationTime.current += delta;
       lastTick = now;
+      if (!entrancePlayed.current && animationTime.current >= 1.8 && width && height) {
+        pointer.pulses.push({ x: width * .55, y: height * .57, age: 0 });
+        lastPulse = animationTime.current;
+        entrancePlayed.current = true;
+      }
       if (now - lastFrame >= 1000 / 60 - 1) {
         paint(lastFrame ? Math.min((now - lastFrame) / 1000, .05) : 0);
         lastFrame = now;
@@ -58,6 +75,7 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
       lastTick = 0;
       lastFrame = 0;
       leave();
+      pointer.pulses.length = 0;
       sky = getSkyState(new Date());
       paint();
       if (!stopped && visible && !document.hidden) frame = requestAnimationFrame(tick);
@@ -77,6 +95,7 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
     document.addEventListener('visibilitychange', sync);
     hero.addEventListener('pointermove', move);
     hero.addEventListener('pointerleave', leave);
+    wrapper.addEventListener('click', burst);
     window.addEventListener('blur', leave);
     // Keep even the still scene current, without animating reduced-motion visitors.
     const clock = window.setInterval(() => {
@@ -92,12 +111,14 @@ export function AsciiCloud({ reducedMotion }: AsciiCloudProps) {
       document.removeEventListener('visibilitychange', sync);
       hero.removeEventListener('pointermove', move);
       hero.removeEventListener('pointerleave', leave);
+      wrapper.removeEventListener('click', burst);
       window.removeEventListener('blur', leave);
     };
   }, [reducedMotion]);
 
-  return <div className="ascii-cloud" ref={container}>
+  return <button type="button" className="ascii-cloud" ref={container}
+    aria-label="Send a wave through the ASCII cloud" disabled={reducedMotion}>
     <canvas ref={canvas} aria-hidden="true" className="ascii-cloud-canvas" />
-  </div>;
+  </button>;
 }
 

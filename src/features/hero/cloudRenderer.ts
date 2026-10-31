@@ -17,6 +17,7 @@ const BILLOWS = [
 
 export interface CloudPointer {
   strokes: { x0: number; y0: number; x1: number; y1: number }[];
+  pulses: { x: number; y: number; age: number }[];
 }
 
 // Smooth union joins the billows without drawing independent spherical rims.
@@ -109,6 +110,8 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
     const damping = Math.exp(-2.5 * step);
     const radius = compact ? 40 : 62;
     const strokes = pointer.strokes.splice(0);
+    const pulses = still ? [] : pointer.pulses;
+    const waveSpeed = Math.max(width, height) * 1.8;
     const wind = still ? 0 : time;
 
     for (const particle of particles) {
@@ -122,6 +125,19 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
 
       if (!still) {
         particle.corruption *= Math.exp(-.85 * step);
+        for (const pulse of pulses) {
+          const ox = x - pulse.x;
+          const oy = y - pulse.y;
+          const distance = Math.hypot(ox, oy);
+          const front = pulse.age * waveSpeed;
+          // Each cell receives one impulse as the expanding wave reaches it.
+          if (distance < front || distance >= front + step * waveSpeed) continue;
+          const direction = Math.atan2(oy, ox) + (particle.seed - .5) * .7;
+          const strength = (270 + particle.seed * 150) * (compact ? .65 : 1);
+          particle.vx += Math.cos(direction) * strength;
+          particle.vy += Math.sin(direction) * strength;
+          particle.corruption = 1;
+        }
         for (const stroke of strokes) {
           const sx = stroke.x1 - stroke.x0, sy = stroke.y1 - stroke.y0;
           const length = Math.hypot(sx, sy);
@@ -184,6 +200,8 @@ export function createAsciiCloudRenderer(context: CanvasRenderingContext2D) {
       context.drawImage(atlas, glyph * tile * 2, shade * tile * 2, tile * 2, tile * 2,
         drawX - tile / 2, drawY - tile / 2, tile, tile);
     }
+    for (const pulse of pulses) pulse.age += step;
+    pointer.pulses = pulses.filter(pulse => pulse.age < .85);
     context.globalAlpha = 1;
   };
 }

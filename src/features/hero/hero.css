@@ -43,6 +43,12 @@
   font-size: clamp(30px, 4.5vw, 52px);
 }
 .ascii-cloud {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
   position: absolute;
   z-index: 0;
   width: min(66vw, 730px);
@@ -50,6 +56,12 @@
   right: -60px;
   top: 50%;
   transform: translate(32px, -50%);
+}
+.ascii-cloud:disabled {
+  cursor: default;
+}
+.ascii-cloud:focus-visible {
+  outline-offset: -8px;
 }
 .ascii-cloud-canvas {
   display: block;
